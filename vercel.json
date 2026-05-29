@@ -1,0 +1,14 @@
+{
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "framework": "vite",
+    "installCommand": "npm install",
+    "rewrites": [
+        { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+        { "source": "/robots.txt", "destination": "/robots.txt" },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

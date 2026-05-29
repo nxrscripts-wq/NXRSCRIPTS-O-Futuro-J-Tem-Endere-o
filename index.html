@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NXRSCRIPTS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              nxr: {
+                dark: '#020617', // Slate 950
+                panel: '#0f172a', // Slate 900
+                border: '#1e293b', // Slate 800
+                primary: '#06b6d4', // Cyan 500
+                glow: '#22d3ee', // Cyan 400
+                text: '#94a3b8', // Slate 400
+                light: '#f8fafc', // Slate 50
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+              orbitron: ['Orbitron', 'sans-serif'],
+              rajdhani: ['Rajdhani', 'sans-serif'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'scan': 'scan 3s linear infinite',
+              'scan-beam': 'scan-beam 6s linear infinite',
+            },
+            keyframes: {
+              scan: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' },
+              },
+              'scan-beam': {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(200%)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #020617;
+        color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+      }
+      .neon-text {
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+      }
+      .neon-border {
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #06b6d4; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+    <link rel="icon" type="image/png" href="/nxrscripts-logo.png">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

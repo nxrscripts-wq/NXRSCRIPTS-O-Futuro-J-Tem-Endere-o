@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/login
+Crawl-delay: 10
+
+Sitemap: https://nxrscripts.co.ao/sitemap.xml
