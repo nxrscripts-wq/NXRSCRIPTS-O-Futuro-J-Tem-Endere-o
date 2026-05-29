@@ -1,10 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, ScrollRestoration, useLocation } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { Suspense } from 'react';
 import PageLoader from './components/PageLoader';
 import ErrorBoundary from './components/ErrorBoundary';
-import { AlertTriangle } from 'lucide-react';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const About = React.lazy(() => import('./pages/About'));
@@ -19,7 +17,6 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 const Quote = React.lazy(() => import('./pages/Quote'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
-import { Navigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
 
 // ScrollToTop component to ensure navigation resets scroll
@@ -35,7 +32,7 @@ const ScrollToTop = () => {
 
 // ProtectedRoute component to shield admin areas
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = React.useState<any>(null);
+  const [session, setSession] = React.useState<unknown>(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -46,7 +43,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
@@ -56,7 +55,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (loading) {
     return (
       <div className="min-h-screen bg-nxr-dark flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-nxr-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-nxr-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -77,17 +76,94 @@ function App() {
       <Layout>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<ErrorBoundary key="home" routeName="Início"><Home /></ErrorBoundary>} />
-            <Route path="/about" element={<ErrorBoundary key="about" routeName="Sobre Nós"><About /></ErrorBoundary>} />
-            <Route path="/services" element={<ErrorBoundary key="services" routeName="Serviços"><Services /></ErrorBoundary>} />
-            <Route path="/store" element={<ErrorBoundary key="store" routeName="Loja"><Store /></ErrorBoundary>} />
-            <Route path="/technologies" element={<ErrorBoundary key="technologies" routeName="Tecnologias"><Technologies /></ErrorBoundary>} />
-            <Route path="/quote" element={<ErrorBoundary key="quote" routeName="Orçamento"><Quote /></ErrorBoundary>} />
-            <Route path="/blog" element={<ErrorBoundary key="blog" routeName="Blog"><Blog /></ErrorBoundary>} />
-            <Route path="/blog/:slug" element={<ErrorBoundary key="blog-post" routeName="Artigo"><BlogPost /></ErrorBoundary>} />
-            <Route path="/contact" element={<ErrorBoundary key="contact" routeName="Contacto"><Contact /></ErrorBoundary>} />
-            <Route path="/privacy" element={<ErrorBoundary key="privacy" routeName="Política de Privacidade"><Privacy /></ErrorBoundary>} />
-            <Route path="/admin/login" element={<ErrorBoundary key="adminlogin" routeName="Login"><AdminLogin /></ErrorBoundary>} />
+            <Route
+              path="/"
+              element={
+                <ErrorBoundary key="home" routeName="Início">
+                  <Home />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <ErrorBoundary key="about" routeName="Sobre Nós">
+                  <About />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/services"
+              element={
+                <ErrorBoundary key="services" routeName="Serviços">
+                  <Services />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/store"
+              element={
+                <ErrorBoundary key="store" routeName="Loja">
+                  <Store />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/technologies"
+              element={
+                <ErrorBoundary key="technologies" routeName="Tecnologias">
+                  <Technologies />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/quote"
+              element={
+                <ErrorBoundary key="quote" routeName="Orçamento">
+                  <Quote />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <ErrorBoundary key="blog" routeName="Blog">
+                  <Blog />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/blog/:slug"
+              element={
+                <ErrorBoundary key="blog-post" routeName="Artigo">
+                  <BlogPost />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <ErrorBoundary key="contact" routeName="Contacto">
+                  <Contact />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/privacy"
+              element={
+                <ErrorBoundary key="privacy" routeName="Política de Privacidade">
+                  <Privacy />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/login"
+              element={
+                <ErrorBoundary key="adminlogin" routeName="Login">
+                  <AdminLogin />
+                </ErrorBoundary>
+              }
+            />
             <Route
               path="/admin"
               element={
@@ -98,7 +174,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<ErrorBoundary key="notfound" routeName="Não Encontrado"><NotFound /></ErrorBoundary>} />
+            <Route
+              path="*"
+              element={
+                <ErrorBoundary key="notfound" routeName="Não Encontrado">
+                  <NotFound />
+                </ErrorBoundary>
+              }
+            />
           </Routes>
         </Suspense>
       </Layout>
