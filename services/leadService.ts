@@ -21,6 +21,7 @@ export const getLeads = async (): Promise<Lead[]> => {
     message: row.message,
     category: row.category,
     status: row.status as LeadStatus,
+    notes: row.notes || '',
     createdAt: new Date(row.created_at).getTime(),
   }));
 };
@@ -52,6 +53,7 @@ export const createLead = async (leadData: Omit<Lead, 'id' | 'createdAt' | 'stat
     message: data.message,
     category: data.category,
     status: data.status as LeadStatus,
+    notes: data.notes || '',
     createdAt: new Date(data.created_at).getTime(),
   };
 };
@@ -70,6 +72,24 @@ export const updateLeadStatus = async (id: string, status: LeadStatus): Promise<
   if (error) {
     console.error('Error updating lead status:', error);
     return false;
+  }
+  return true;
+};
+
+export const updateLeadNotes = async (id: string, notes: string): Promise<boolean> => {
+  if (!isValidUUID(id)) {
+    console.error(`[Security] IDOR Prevention: Blocked update with invalid UUID: ${id}`);
+    return false;
+  }
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ notes })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error updating lead notes:', error);
+    throw error;
   }
   return true;
 };

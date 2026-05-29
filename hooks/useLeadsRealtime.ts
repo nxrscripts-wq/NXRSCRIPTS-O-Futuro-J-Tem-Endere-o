@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { Lead, LeadStatus } from '../types';
+import toast from 'react-hot-toast';
 
 export function useLeadsRealtime() {
   const queryClient = useQueryClient();
@@ -54,6 +55,12 @@ export function useLeadsRealtime() {
                 return next;
               });
             }, 3000);
+
+            toast('🔔 Novo lead recebido', {
+              icon: '📩',
+              style: { borderColor: '#0066FF33' },
+              duration: 5000,
+            });
           }
 
           // Invalidar a query para re-fetch automático (garante dados frescos do servidor)

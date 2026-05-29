@@ -1,13 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { getLeads, updateLeadStatus, deleteLead } from '../services/leadService';
+import { getLeads, updateLeadStatus, deleteLead, updateLeadNotes } from '../services/leadService';
 import { Lead, LeadStatus } from '../types';
-import { Trash2, Filter, ChevronDown, RefreshCw, LayoutDashboard, Download } from 'lucide-react';
+import { LeadModal } from '../components/LeadModal';
+import { AdminCharts } from '../components/AdminCharts';
+import { AdminBlog } from '../components/AdminBlog';
+import { Trash2, Filter, ChevronDown, RefreshCw, LayoutDashboard, Download, List, FileText } from 'lucide-react';
 import { SectionHeader } from '../components/SectionHeader';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLeadsRealtime } from '../hooks/useLeadsRealtime';
+import toast from 'react-hot-toast';
 
 const Admin: React.FC = () => {
+    const [viewMode, setViewMode] = useState<'dashboard' | 'table' | 'blog'>('dashboard');
     const [filter, setFilter] = useState<'ALL' | LeadStatus>('ALL');
+    const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
     const queryClient = useQueryClient();
     const { isConnected, isNewLead } = useLeadsRealtime();
 
@@ -32,11 +38,13 @@ const Admin: React.FC = () => {
     const updateStatus = useMutation({
         mutationFn: ({ id, status }: { id: string; status: LeadStatus }) =>
             updateLeadStatus(id, status),
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
             queryClient.invalidateQueries({ queryKey: ['leads'] });
+            toast.success(`Lead movido para ${variables.status}`);
         },
         onError: (err) => {
             console.error('Erro ao actualizar status:', err);
+            toast.error('Erro ao actualizar status');
         },
     });
 
@@ -52,6 +60,10 @@ const Admin: React.FC = () => {
         },
         onError: (_err, _id, context) => {
             queryClient.setQueryData(['leads'], context?.previous);
+            toast.error('Erro ao eliminar lead');
+        },
+        onSuccess: () => {
+            toast.success('Lead eliminado');
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['leads'] });
@@ -65,6 +77,15 @@ const Admin: React.FC = () => {
     const handleDelete = (id: string) => {
         if (confirm('Tem a certeza que deseja eliminar este registo?')) {
             deleteMutation.mutate(id);
+            if (selectedLead?.id === id) setSelectedLead(null);
+        }
+    };
+
+    const handleSaveNotes = async (id: string, notes: string) => {
+        await updateLeadNotes(id, notes);
+        queryClient.invalidateQueries({ queryKey: ['leads'] });
+        if (selectedLead && selectedLead.id === id) {
+            setSelectedLead({ ...selectedLead, notes });
         }
     };
 
@@ -72,9 +93,11 @@ const Admin: React.FC = () => {
 
     const handleExportCSV = () => {
         if (filteredLeads.length === 0) {
-            alert("Não existem dados para exportar com o filtro atual.");
+            toast.error("Não existem dados para exportar com o filtro atual.");
             return;
         }
+
+        const toastId = toast.loading('A exportar leads...');
 
         // Define Headers
         const headers = ['ID', 'Data', 'Nome', 'Email', 'Empresa', 'Categoria', 'Estado', 'Mensagem'];
@@ -110,6 +133,8 @@ const Admin: React.FC = () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        toast.success(`Exportação concluída. ${filteredLeads.length} leads exportados`, { id: toastId });
     };
 
     const getStatusColor = (status: LeadStatus) => {
@@ -168,7 +193,48 @@ const Admin: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Stats Grid */}
+                {/* View Toggle */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                    <div className="flex bg-slate-900 border border-slate-700 rounded-lg p-1 w-fit">
+                        <button
+                            onClick={() => setViewMode('dashboard')}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                viewMode === 'dashboard' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                            }`}
+                        >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Dashboard
+                        </button>
+                        <button
+                            onClick={() => setViewMode('table')}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                viewMode === 'table' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                            }`}
+                        >
+                            <List className="w-4 h-4" />
+                            Tabela de Leads
+                        </button>
+                    </div>
+                    <div className="flex bg-slate-900 border border-slate-700 rounded-lg p-1 w-fit">
+                        <button
+                            onClick={() => setViewMode('blog')}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                viewMode === 'blog' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                            }`}
+                        >
+                            <FileText className="w-4 h-4" />
+                            Gestão de Blog
+                        </button>
+                    </div>
+                </div>
+
+                {viewMode === 'blog' ? (
+                    <AdminBlog />
+                ) : viewMode === 'dashboard' ? (
+                    <AdminCharts leads={leads} />
+                ) : (
+                    <>
+                        {/* Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div className="bg-nxr-panel border border-nxr-border p-4 rounded-sm">
                         <div className="text-slate-400 text-xs font-mono uppercase">Total de Inquéritos</div>
@@ -276,7 +342,10 @@ const Admin: React.FC = () => {
                                     </tr>
                                 ) : (
                                     filteredLeads.map((lead) => (
-                                        <tr key={lead.id} className={`hover:bg-slate-800/30 transition-all duration-500 ${
+                                        <tr 
+                                            key={lead.id} 
+                                            onClick={() => setSelectedLead(lead)}
+                                            className={`cursor-pointer hover:bg-slate-800/50 transition-all duration-500 ${
                                             isNewLead(lead.id)
                                                 ? 'border-l-2 border-l-cyan-400 bg-cyan-950/20'
                                                 : ''
@@ -310,7 +379,7 @@ const Admin: React.FC = () => {
                                                         {['NEW', 'CONTACTED', 'QUALIFIED', 'CLOSED'].map((status) => (
                                                             <button
                                                                 key={status}
-                                                                onClick={() => handleStatusChange(lead.id, status as LeadStatus)}
+                                                                onClick={(e) => { e.stopPropagation(); handleStatusChange(lead.id, status as LeadStatus); }}
                                                                 className="block w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-nxr-primary hover:text-nxr-dark"
                                                             >
                                                                 {status}
@@ -321,7 +390,7 @@ const Admin: React.FC = () => {
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <button
-                                                    onClick={() => handleDelete(lead.id)}
+                                                    onClick={(e) => { e.stopPropagation(); handleDelete(lead.id); }}
                                                     className="text-slate-600 hover:text-red-500 transition-colors"
                                                     title="Eliminar Lead"
                                                 >
@@ -335,6 +404,19 @@ const Admin: React.FC = () => {
                         </table>
                     </div>
                 </div>
+                </>
+                )}
+
+                {/* Modal */}
+                {selectedLead && (
+                    <LeadModal
+                        lead={selectedLead}
+                        onClose={() => setSelectedLead(null)}
+                        onStatusChange={handleStatusChange}
+                        onSaveNotes={handleSaveNotes}
+                        onDelete={handleDelete}
+                    />
+                )}
             </div>
         </div>
     );

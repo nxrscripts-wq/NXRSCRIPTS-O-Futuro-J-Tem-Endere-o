@@ -3,12 +3,13 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Mail, Phone, MapPin, Send, Plus, Minus } from 'lucide-react';
 import { analyzeMessageIntent } from '../services/geminiService';
 import { createLead } from '../services/leadService';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useRateLimit } from '../lib/useRateLimit';
 import { COMPANY_INFO } from '../constants';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema, localBusinessSchema } from '../lib/jsonld';
+import { AnimateIn } from '../components/AnimateIn';
 
 const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -117,31 +118,37 @@ const Contact: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-white mb-8">Operações Globais</h3>
             <div className="space-y-8">
-              <div className="flex items-start">
-                <MapPin className="w-6 h-6 text-nxr-primary mt-1" />
-                <div className="ml-4">
-                  <h4 className="text-white font-semibold">Sede</h4>
-                  <p className="text-slate-400 mt-1">
-                    {COMPANY_INFO.address.street}, {COMPANY_INFO.address.district}<br />
-                    {COMPANY_INFO.address.city}, {COMPANY_INFO.address.country}
-                  </p>
+              <AnimateIn delay={0}>
+                <div className="flex items-start">
+                  <MapPin className="w-6 h-6 text-nxr-primary mt-1" />
+                  <div className="ml-4">
+                    <h4 className="text-white font-semibold">Sede</h4>
+                    <p className="text-slate-400 mt-1">
+                      {COMPANY_INFO.address.street}, {COMPANY_INFO.address.district}<br />
+                      {COMPANY_INFO.address.city}, {COMPANY_INFO.address.country}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <Mail className="w-6 h-6 text-nxr-primary mt-1" />
-                <div className="ml-4">
-                  <h4 className="text-white font-semibold">Email</h4>
-                  <a href={COMPANY_INFO.contact.emailLink} className="text-slate-400 mt-1 hover:text-nxr-primary transition-colors block">{COMPANY_INFO.contact.email}</a>
+              </AnimateIn>
+              <AnimateIn delay={80}>
+                <div className="flex items-start">
+                  <Mail className="w-6 h-6 text-nxr-primary mt-1" />
+                  <div className="ml-4">
+                    <h4 className="text-white font-semibold">Email</h4>
+                    <a href={COMPANY_INFO.contact.emailLink} className="text-slate-400 mt-1 hover:text-nxr-primary transition-colors block">{COMPANY_INFO.contact.email}</a>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <Phone className="w-6 h-6 text-nxr-primary mt-1" />
-                <div className="ml-4">
-                  <h4 className="text-white font-semibold">Telefone / WhatsApp</h4>
-                  <a href={COMPANY_INFO.contact.phoneLink} className="text-slate-400 mt-1 hover:text-nxr-primary transition-colors block">{COMPANY_INFO.contact.phone}</a>
-                  <a href={COMPANY_INFO.contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="text-nxr-primary text-xs mt-1 hover:underline block">Abrir conversa no WhatsApp</a>
+              </AnimateIn>
+              <AnimateIn delay={160}>
+                <div className="flex items-start">
+                  <Phone className="w-6 h-6 text-nxr-primary mt-1" />
+                  <div className="ml-4">
+                    <h4 className="text-white font-semibold">Telefone / WhatsApp</h4>
+                    <a href={COMPANY_INFO.contact.phoneLink} className="text-slate-400 mt-1 hover:text-nxr-primary transition-colors block">{COMPANY_INFO.contact.phone}</a>
+                    <a href={COMPANY_INFO.contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="text-nxr-primary text-xs mt-1 hover:underline block">Abrir conversa no WhatsApp</a>
+                  </div>
                 </div>
-              </div>
+              </AnimateIn>
             </div>
 
             <div className="mt-12 bg-slate-900 border border-slate-800 p-6 rounded-sm">
@@ -259,6 +266,9 @@ const Contact: React.FC = () => {
                       Aguarda {Math.floor(secondsLeft / 60)}m {secondsLeft % 60}s para enviar novamente
                     </p>
                   )}
+                  <p className="text-xs text-slate-500 text-center mt-4">
+                    Ao enviar este formulário, aceitas a nossa <Link to="/privacy" className="text-nxr-primary hover:underline">Política de Privacidade</Link>.
+                  </p>
                 </div>
               </form>
             )}
@@ -272,22 +282,30 @@ const Contact: React.FC = () => {
         <section className="max-w-3xl mx-auto">
           <SectionHeader title="FAQ" subtitle="Perguntas Frequentes" align="center" />
           <div className="mt-8">
-            <FAQItem
-              question="A NXRSCRIPTS trabalha com pequenas empresas?"
-              answer="Sim, oferecemos pacotes escaláveis adaptados às necessidades de PMEs, garantindo proteção de nível empresarial independentemente da dimensão."
-            />
-            <FAQItem
-              question="Qual é o tempo de resposta a incidentes críticos?"
-              answer="Para clientes com contrato SLA Enterprise, o nosso tempo de resposta garantido é inferior a 15 minutos para incidentes de severidade crítica."
-            />
-            <FAQItem
-              question="Realizam auditorias de conformidade (GDPR/ISO 27001)?"
-              answer="Absolutamente. A nossa equipa de consultoria está certificada para preparar a sua organização para auditorias de conformidade e regulamentação internacional."
-            />
-            <FAQItem
-              question="Como funciona a arquitetura Zero Trust?"
-              answer="O Zero Trust assume que nenhuma entidade (interna ou externa) é confiável por defeito. Implementamos verificação contínua de identidade e privilégios mínimos em todos os pontos de acesso."
-            />
+            <AnimateIn delay={0}>
+              <FAQItem
+                question="A NXRSCRIPTS trabalha com pequenas empresas?"
+                answer="Sim, oferecemos pacotes escaláveis adaptados às necessidades de PMEs, garantindo proteção de nível empresarial independentemente da dimensão."
+              />
+            </AnimateIn>
+            <AnimateIn delay={80}>
+              <FAQItem
+                question="Qual é o tempo de resposta a incidentes críticos?"
+                answer="Para clientes com contrato SLA Enterprise, o nosso tempo de resposta garantido é inferior a 15 minutos para incidentes de severidade crítica."
+              />
+            </AnimateIn>
+            <AnimateIn delay={160}>
+              <FAQItem
+                question="Realizam auditorias de conformidade (GDPR/ISO 27001)?"
+                answer="Absolutamente. A nossa equipa de consultoria está certificada para preparar a sua organização para auditorias de conformidade e regulamentação internacional."
+              />
+            </AnimateIn>
+            <AnimateIn delay={240}>
+              <FAQItem
+                question="Como funciona a arquitetura Zero Trust?"
+                answer="O Zero Trust assume que nenhuma entidade (interna ou externa) é confiável por defeito. Implementamos verificação contínua de identidade e privilégios mínimos em todos os pontos de acesso."
+              />
+            </AnimateIn>
           </div>
         </section>
       </div>

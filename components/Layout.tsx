@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Linkedin, Twitter, Facebook, MessageCircle, Instagram } from 'lucide-react';
 import { NAV_ITEMS, COMPANY_INFO } from '../constants';
+import { Chatbot } from './Chatbot';
 
 const prefetchRoute = (path: string) => {
   switch (path) {
@@ -10,6 +11,8 @@ const prefetchRoute = (path: string) => {
     case '/services': import('../pages/Services'); break;
     case '/store': import('../pages/Store'); break;
     case '/technologies': import('../pages/Technologies'); break;
+    case '/blog': import('../pages/Blog'); break;
+    case '/quote': import('../pages/Quote'); break;
     case '/contact': import('../pages/Contact'); break;
   }
 };
@@ -40,7 +43,7 @@ const Navbar: React.FC = () => {
               width="400"
               height="133"
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
               className="h-10 sm:h-16 md:h-24 w-auto aspect-[3/1] object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]"
             />
           </Link>
@@ -169,7 +172,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="border-t border-nxr-border pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600">
           <div className="flex space-x-6 mb-4 md:mb-0">
-            <Link to="/contact" className="hover:text-slate-400 transition-colors">Política de Privacidade</Link>
+            <Link to="/privacy" className="hover:text-slate-400 transition-colors">Política de Privacidade</Link>
             <Link to="/contact" className="hover:text-slate-400 transition-colors">Termos de Serviço</Link>
             <Link to="/contact" className="hover:text-slate-400 transition-colors">Cookies</Link>
           </div>
@@ -183,6 +186,8 @@ const Footer: React.FC = () => {
 };
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  
   return (
     <div className="min-h-screen bg-nxr-dark text-slate-300 flex flex-col selection:bg-nxr-primary selection:text-nxr-dark">
       <Navbar />
@@ -190,6 +195,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         {children}
       </main>
       <Footer />
+      {!location.pathname.startsWith('/admin') && <Chatbot />}
     </div>
   );
 };

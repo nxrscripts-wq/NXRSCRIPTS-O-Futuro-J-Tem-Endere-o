@@ -48,6 +48,23 @@ export const SEO_PAGES: Record<string, SEOConfig> = {
     path: '/contact',
     keywords: 'contacto nxrscripts, contacto empresa tecnologia luanda angola',
   },
+  privacy: {
+    title: 'Política de Privacidade | NXRSCRIPTS',
+    description: 'Conheça a nossa política de privacidade, saiba como protegemos os seus dados e conheça os seus direitos na NXRSCRIPTS.',
+    path: '/privacy',
+    keywords: 'política de privacidade nxrscripts, proteção de dados, rgpd angola',
+  },
+  quote: {
+    title: 'Pedir Orçamento | NXRSCRIPTS',
+    description: 'Configure as necessidades da sua infraestrutura e inicie o seu projeto de cibersegurança ou desenvolvimento connosco.',
+    path: '/quote',
+  },
+  blog: {
+    title: 'Blog de Cibersegurança & Tecnologia | NXRSCRIPTS',
+    description: 'Insights, tendências e análises profundas sobre cibersegurança, desenvolvimento de software e a evolução tecnológica em Angola.',
+    path: '/blog',
+    keywords: 'blog cibersegurança, blog tecnologia angola, artigos segurança informática, nxrscripts blog',
+  },
 };
 
 export function buildSEO(page: SEOConfig) {

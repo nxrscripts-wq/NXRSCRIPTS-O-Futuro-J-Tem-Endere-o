@@ -36,8 +36,10 @@ export const NAV_ITEMS: NavigationItem[] = [
   { label: 'Início', path: '/' },
   { label: 'Sobre', path: '/about' },
   { label: 'Serviços', path: '/services' },
+  { label: 'Pedir Orçamento', path: '/quote' },
   { label: 'Loja', path: '/store' },
   { label: 'Tecnologias', path: '/technologies' },
+  { label: 'Blog', path: '/blog' },
   { label: 'Contacto', path: '/contact' },
 ];
 

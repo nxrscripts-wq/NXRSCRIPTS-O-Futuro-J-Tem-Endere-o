@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema, serviceSchema } from '../lib/jsonld';
+import { AnimateIn } from '../components/AnimateIn';
 
 const iconMap: Record<string, React.ReactNode> = {
   ShieldCheck: <ShieldCheck className="w-10 h-10" />,
@@ -38,33 +39,34 @@ const Services: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           {SERVICES.map((service, index) => (
-            <div
-              key={service.id}
-              className="group relative bg-nxr-panel border border-nxr-border p-8 hover:border-nxr-primary transition-colors duration-300 overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <ArrowUpRight className="text-nxr-primary w-6 h-6" />
-              </div>
-
-              <div className="text-nxr-text group-hover:text-nxr-primary transition-colors mb-6">
-                {iconMap[service.icon]}
-              </div>
-
-              <h3 className="text-xl font-bold text-white mb-4">{service.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                {service.description}
-              </p>
-
-              <Link
-                to="/contact"
-                className="inline-block text-xs font-mono text-nxr-primary uppercase tracking-widest border-b border-transparent group-hover:border-nxr-primary transition-all"
+            <AnimateIn key={service.id} delay={Math.min(index * 80, 400)}>
+              <div
+                className="group relative bg-nxr-panel border border-nxr-border p-8 hover:border-nxr-primary transition-colors duration-300 overflow-hidden h-full"
               >
-                Saber Mais
-              </Link>
+                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="text-nxr-primary w-6 h-6" />
+                </div>
 
-              {/* Hover Glow Effect */}
-              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-nxr-primary/10 rounded-full blur-2xl group-hover:bg-nxr-primary/20 transition-all duration-500"></div>
-            </div>
+                <div className="text-nxr-text group-hover:text-nxr-primary transition-colors mb-6">
+                  {iconMap[service.icon]}
+                </div>
+
+                <h3 className="text-xl font-bold text-white mb-4">{service.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  {service.description}
+                </p>
+
+                <Link
+                  to="/contact"
+                  className="inline-block text-xs font-mono text-nxr-primary uppercase tracking-widest border-b border-transparent group-hover:border-nxr-primary transition-all"
+                >
+                  Saber Mais
+                </Link>
+
+                {/* Hover Glow Effect */}
+                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-nxr-primary/10 rounded-full blur-2xl group-hover:bg-nxr-primary/20 transition-all duration-500"></div>
+              </div>
+            </AnimateIn>
           ))}
         </div>
 
@@ -82,26 +84,34 @@ const Services: React.FC = () => {
           </div>
           <div className="bg-nxr-panel/50 p-8 rounded-sm border border-nxr-border">
             <div className="space-y-2">
-              <ProcessStep
-                number="01"
-                title="Avaliação & Descoberta"
-                description="Mapeamento completo da infraestrutura digital e identificação de vetores de ataque potenciais."
-              />
-              <ProcessStep
-                number="02"
-                title="Estratégia & Arquitetura"
-                description="Desenho de uma arquitetura de segurança personalizada alinhada com os objetivos de negócio."
-              />
-              <ProcessStep
-                number="03"
-                title="Implementação & Hardening"
-                description="Execução técnica de protocolos de defesa, encriptação e segregação de redes."
-              />
-              <ProcessStep
-                number="04"
-                title="Monitorização & Vigilância"
-                description="Operação contínua 24/7 do SOC para deteção e neutralização de ameaças em tempo real."
-              />
+              <AnimateIn delay={0}>
+                <ProcessStep
+                  number="01"
+                  title="Avaliação & Descoberta"
+                  description="Mapeamento completo da infraestrutura digital e identificação de vetores de ataque potenciais."
+                />
+              </AnimateIn>
+              <AnimateIn delay={80}>
+                <ProcessStep
+                  number="02"
+                  title="Estratégia & Arquitetura"
+                  description="Desenho de uma arquitetura de segurança personalizada alinhada com os objetivos de negócio."
+                />
+              </AnimateIn>
+              <AnimateIn delay={160}>
+                <ProcessStep
+                  number="03"
+                  title="Implementação & Hardening"
+                  description="Execução técnica de protocolos de defesa, encriptação e segregação de redes."
+                />
+              </AnimateIn>
+              <AnimateIn delay={240}>
+                <ProcessStep
+                  number="04"
+                  title="Monitorização & Vigilância"
+                  description="Operação contínua 24/7 do SOC para deteção e neutralização de ameaças em tempo real."
+                />
+              </AnimateIn>
             </div>
           </div>
         </section>

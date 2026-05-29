@@ -5,6 +5,7 @@ import { Laptop, Cpu, Router, ShieldCheck, MonitorPlay, Briefcase, ArrowRight, S
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema } from '../lib/jsonld';
+import { AnimateIn } from '../components/AnimateIn';
 
 interface Product {
   id: string;
@@ -359,12 +360,13 @@ const Store: React.FC = () => {
 
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onViewDetails={handleOpenModal}
-              />
+            {filteredProducts.map((product, index) => (
+              <AnimateIn key={product.id} delay={Math.min(index * 80, 400)}>
+                <ProductCard
+                  product={product}
+                  onViewDetails={handleOpenModal}
+                />
+              </AnimateIn>
             ))}
           </div>
         ) : (

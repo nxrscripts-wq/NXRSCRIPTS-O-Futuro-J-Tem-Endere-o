@@ -11,10 +11,14 @@ const About = React.lazy(() => import('./pages/About'));
 const Services = React.lazy(() => import('./pages/Services'));
 const Technologies = React.lazy(() => import('./pages/Technologies'));
 const Contact = React.lazy(() => import('./pages/Contact'));
+const Privacy = React.lazy(() => import('./pages/Privacy'));
 const Admin = React.lazy(() => import('./pages/Admin'));
 const Store = React.lazy(() => import('./pages/Store'));
 const AdminLogin = React.lazy(() => import('./pages/AdminLogin'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
+const Quote = React.lazy(() => import('./pages/Quote'));
+const Blog = React.lazy(() => import('./pages/Blog'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 import { Navigate } from 'react-router-dom';
 import { supabase } from './lib/supabase';
 
@@ -64,6 +68,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <Router>
@@ -76,7 +82,11 @@ function App() {
             <Route path="/services" element={<ErrorBoundary key="services" routeName="Serviços"><Services /></ErrorBoundary>} />
             <Route path="/store" element={<ErrorBoundary key="store" routeName="Loja"><Store /></ErrorBoundary>} />
             <Route path="/technologies" element={<ErrorBoundary key="technologies" routeName="Tecnologias"><Technologies /></ErrorBoundary>} />
+            <Route path="/quote" element={<ErrorBoundary key="quote" routeName="Orçamento"><Quote /></ErrorBoundary>} />
+            <Route path="/blog" element={<ErrorBoundary key="blog" routeName="Blog"><Blog /></ErrorBoundary>} />
+            <Route path="/blog/:slug" element={<ErrorBoundary key="blog-post" routeName="Artigo"><BlogPost /></ErrorBoundary>} />
             <Route path="/contact" element={<ErrorBoundary key="contact" routeName="Contacto"><Contact /></ErrorBoundary>} />
+            <Route path="/privacy" element={<ErrorBoundary key="privacy" routeName="Política de Privacidade"><Privacy /></ErrorBoundary>} />
             <Route path="/admin/login" element={<ErrorBoundary key="adminlogin" routeName="Login"><AdminLogin /></ErrorBoundary>} />
             <Route
               path="/admin"
@@ -92,6 +102,7 @@ function App() {
           </Routes>
         </Suspense>
       </Layout>
+      <Toaster position="top-right" />
     </Router>
   );
 }

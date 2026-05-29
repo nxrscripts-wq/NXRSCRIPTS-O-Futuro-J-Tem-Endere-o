@@ -34,5 +34,24 @@ export interface Lead {
   message: string;
   category: string; // From AI analysis
   status: LeadStatus;
+  notes?: string;
   createdAt: number;
+}
+
+export type BlogCategory = 'Cibersegurança' | 'Desenvolvimento' | 'Angola Tech' | 'Tendências';
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: BlogCategory;
+  tags: string[];
+  cover_image: string | null;
+  reading_time_minutes: number;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
 }

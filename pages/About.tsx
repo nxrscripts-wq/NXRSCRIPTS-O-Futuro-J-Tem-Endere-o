@@ -4,6 +4,7 @@ import { Target, Globe, Users, Linkedin, Twitter } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema } from '../lib/jsonld';
+import { AnimateIn } from '../components/AnimateIn';
 
 const TeamMember: React.FC<{ name: string; role: string; bio: string; image: string }> = ({ name, role, bio, image }) => (
   <div className="group relative">
@@ -64,7 +65,7 @@ const About: React.FC = () => {
               className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
               loading="eager"
               decoding="sync"
-              fetchpriority="high"
+              fetchPriority="high"
             />
             <div className="absolute bottom-4 left-4 z-20">
               <div className="text-xs font-mono text-nxr-primary bg-black/80 px-2 py-1">INSTALAÇÃO_SEGURA_V2.0</div>
@@ -79,27 +80,33 @@ const About: React.FC = () => {
           <SectionHeader title="O Nosso ADN" subtitle="Princípios Fundamentais" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
-                <Target className="w-8 h-8" />
+            <AnimateIn delay={0}>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
+                  <Target className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Precisão</h3>
+                <p className="text-slate-400 text-sm">Precisão cirúrgica na identificação e neutralização de ameaças sem interromper as operações comerciais.</p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Precisão</h3>
-              <p className="text-slate-400 text-sm">Precisão cirúrgica na identificação e neutralização de ameaças sem interromper as operações comerciais.</p>
-            </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
-                <Globe className="w-8 h-8" />
+            </AnimateIn>
+            <AnimateIn delay={80}>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
+                  <Globe className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Visão Global</h3>
+                <p className="text-slate-400 text-sm">Proteção de ativos além-fronteiras com inteligência recolhida através de uma rede mundial de sensores.</p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Visão Global</h3>
-              <p className="text-slate-400 text-sm">Proteção de ativos além-fronteiras com inteligência recolhida através de uma rede mundial de sensores.</p>
-            </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
-                <Users className="w-8 h-8" />
+            </AnimateIn>
+            <AnimateIn delay={160}>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
+                  <Users className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Parceria</h3>
+                <p className="text-slate-400 text-sm">Não apenas resolvemos problemas; construímos estratégias de resiliência a longo prazo juntamente com os nossos clientes.</p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Parceria</h3>
-              <p className="text-slate-400 text-sm">Não apenas resolvemos problemas; construímos estratégias de resiliência a longo prazo juntamente com os nossos clientes.</p>
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
@@ -109,30 +116,38 @@ const About: React.FC = () => {
         <SectionHeader title="Liderança" subtitle="O Conselho Executivo" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <TeamMember
-            name="Alexandre Vaz"
-            role="Chief Executive Officer"
-            bio="Ex-CISO de Fortune 500 com 20 anos de experiência em defesa cibernética estratégica."
-            image="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-          />
-          <TeamMember
-            name="Sarah Chen"
-            role="CTO & Head of Research"
-            bio="Pioneira em criptografia quântica e arquiteta dos protocolos proprietários da NXR."
-            image="https://images.unsplash.com/photo-1573496359-136d475583dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-          />
-          <TeamMember
-            name="Marcus Thorne"
-            role="Dir. Operações de Segurança"
-            bio="Lidera as equipas de Resposta a Incidentes e Red Teaming globais."
-            image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-          />
-          <TeamMember
-            name="Elena Roussos"
-            role="VP de Engenharia"
-            bio="Especialista em segurança cloud e orquestração de infraestruturas resilientes."
-            image="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-          />
+          <AnimateIn delay={0}>
+            <TeamMember
+              name="Alexandre Vaz"
+              role="Chief Executive Officer"
+              bio="Ex-CISO de Fortune 500 com 20 anos de experiência em defesa cibernética estratégica."
+              image="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+          </AnimateIn>
+          <AnimateIn delay={80}>
+            <TeamMember
+              name="Sarah Chen"
+              role="CTO & Head of Research"
+              bio="Pioneira em criptografia quântica e arquiteta dos protocolos proprietários da NXR."
+              image="https://images.unsplash.com/photo-1573496359-136d475583dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+          </AnimateIn>
+          <AnimateIn delay={160}>
+            <TeamMember
+              name="Marcus Thorne"
+              role="Dir. Operações de Segurança"
+              bio="Lidera as equipas de Resposta a Incidentes e Red Teaming globais."
+              image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+          </AnimateIn>
+          <AnimateIn delay={240}>
+            <TeamMember
+              name="Elena Roussos"
+              role="VP de Engenharia"
+              bio="Especialista em segurança cloud e orquestração de infraestruturas resilientes."
+              image="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+          </AnimateIn>
         </div>
       </section>
     </div>

@@ -5,6 +5,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema, localBusinessSchema, webSiteSchema } from '../lib/jsonld';
+import { AnimateIn } from '../components/AnimateIn';
 
 const Hero: React.FC = () => {
   return (
@@ -45,6 +46,12 @@ const Hero: React.FC = () => {
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
+            to="/quote"
+            className="w-full sm:w-auto px-8 py-4 bg-slate-800/80 text-white font-bold rounded-sm border border-slate-700 hover:border-nxr-primary hover:text-nxr-primary transition-all duration-300 flex items-center justify-center text-sm md:text-base"
+          >
+            Pedir Orçamento
+          </Link>
+          <Link
             to="/services"
             className="w-full sm:w-auto px-8 py-4 border border-slate-700 text-white rounded-sm hover:border-nxr-primary hover:text-nxr-primary transition-all duration-300 text-sm md:text-base"
           >
@@ -81,21 +88,27 @@ const Highlights: React.FC = () => {
         <SectionHeader title="Especialização" subtitle="Estratégias de Defesa Abrangentes" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FeatureCard
-            icon={<Shield className="w-8 h-8" />}
-            title="Proteção Avançada"
-            desc="Caça proativa de ameaças e mecanismos de defesa em tempo real que antecipam ataques antes que aconteçam."
-          />
-          <FeatureCard
-            icon={<Activity className="w-8 h-8" />}
-            title="Monitorização Contínua"
-            desc="Vigilância 24/7 da sua infraestrutura crítica com protocolos automatizados de resposta a incidentes."
-          />
-          <FeatureCard
-            icon={<Code2 className="w-8 h-8" />}
-            title="Desenvolvimento Seguro"
-            desc="Integração de segurança em todas as fases do ciclo de vida de desenvolvimento de software (SDLC)."
-          />
+          <AnimateIn delay={0}>
+            <FeatureCard
+              icon={<Shield className="w-8 h-8" />}
+              title="Proteção Avançada"
+              desc="Caça proativa de ameaças e mecanismos de defesa em tempo real que antecipam ataques antes que aconteçam."
+            />
+          </AnimateIn>
+          <AnimateIn delay={80}>
+            <FeatureCard
+              icon={<Activity className="w-8 h-8" />}
+              title="Monitorização Contínua"
+              desc="Vigilância 24/7 da sua infraestrutura crítica com protocolos automatizados de resposta a incidentes."
+            />
+          </AnimateIn>
+          <AnimateIn delay={160}>
+            <FeatureCard
+              icon={<Code2 className="w-8 h-8" />}
+              title="Desenvolvimento Seguro"
+              desc="Integração de segurança em todas as fases do ciclo de vida de desenvolvimento de software (SDLC)."
+            />
+          </AnimateIn>
         </div>
       </div>
     </section>
@@ -157,27 +170,33 @@ const CaseStudies: React.FC = () => {
         <SectionHeader title="Casos de Sucesso" subtitle="Resultados Comprovados em Ambientes Críticos" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <CaseStudyCard
-            sector="Fintech"
-            title="Fortaleza Bancária Global"
-            problem="Um banco de Nível 1 enfrentou ataques DDoS coordenados e tentativas de credential stuffing ameaçando 5M+ contas."
-            solution="Implementação da análise de tráfego baseada em IA da NXR e framework de identidade Zero Trust em todos os endpoints."
-            result="100% de Mitigação de Ataques com zero tempo de inatividade durante o pico de transações."
-          />
-          <CaseStudyCard
-            sector="Saúde"
-            title="Segurança de Dados de Pacientes"
-            problem="Rede hospitalar regional exigiu remediação urgente após detetar movimento lateral na sua rede interna legada."
-            solution="Equipa de resposta rápida a incidentes (IR) isolou nós comprometidos e reestruturou políticas de segmentação de rede."
-            result="Prevenção de deployment de ransomware; economia estimada de $50M em danos potenciais."
-          />
-          <CaseStudyCard
-            sector="Governo"
-            title="Escudo de Infraestrutura Crítica"
-            problem="Fornecedor nacional de serviços públicos precisava proteger sistemas SCADA contra ameaças persistentes avançadas (APTs)."
-            solution="Implementação de backups air-gapped e sistemas de deteção de intrusão personalizados para protocolos industriais."
-            result="Bloqueio bem-sucedido de 3 grandes tentativas de intrusão num período de 12 meses."
-          />
+          <AnimateIn delay={0}>
+            <CaseStudyCard
+              sector="Fintech"
+              title="Fortaleza Bancária Global"
+              problem="Um banco de Nível 1 enfrentou ataques DDoS coordenados e tentativas de credential stuffing ameaçando 5M+ contas."
+              solution="Implementação da análise de tráfego baseada em IA da NXR e framework de identidade Zero Trust em todos os endpoints."
+              result="100% de Mitigação de Ataques com zero tempo de inatividade durante o pico de transações."
+            />
+          </AnimateIn>
+          <AnimateIn delay={80}>
+            <CaseStudyCard
+              sector="Saúde"
+              title="Segurança de Dados de Pacientes"
+              problem="Rede hospitalar regional exigiu remediação urgente após detetar movimento lateral na sua rede interna legada."
+              solution="Equipa de resposta rápida a incidentes (IR) isolou nós comprometidos e reestruturou políticas de segmentação de rede."
+              result="Prevenção de deployment de ransomware; economia estimada de $50M em danos potenciais."
+            />
+          </AnimateIn>
+          <AnimateIn delay={160}>
+            <CaseStudyCard
+              sector="Governo"
+              title="Escudo de Infraestrutura Crítica"
+              problem="Fornecedor nacional de serviços públicos precisava proteger sistemas SCADA contra ameaças persistentes avançadas (APTs)."
+              solution="Implementação de backups air-gapped e sistemas de deteção de intrusão personalizados para protocolos industriais."
+              result="Bloqueio bem-sucedido de 3 grandes tentativas de intrusão num período de 12 meses."
+            />
+          </AnimateIn>
         </div>
       </div>
     </section>
@@ -191,10 +210,10 @@ const TrustSection: React.FC = () => {
         <p className="text-sm font-mono text-nxr-primary mb-8 uppercase tracking-widest">A Confiança de Empresas Globais</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
           {/* Placeholder Logos */}
-          <div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">CORP_ONE</div>
-          <div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">NET_SYS</div>
-          <div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">DATA_GRD</div>
-          <div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">SEC_OPS</div>
+          <AnimateIn delay={0}><div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">CORP_ONE</div></AnimateIn>
+          <AnimateIn delay={80}><div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">NET_SYS</div></AnimateIn>
+          <AnimateIn delay={160}><div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">DATA_GRD</div></AnimateIn>
+          <AnimateIn delay={240}><div className="flex items-center justify-center h-12 text-2xl font-bold font-mono">SEC_OPS</div></AnimateIn>
         </div>
       </div>
     </section>
@@ -244,27 +263,33 @@ const Testimonials: React.FC = () => {
         <SectionHeader title="Testemunhos" subtitle="O Que Dizem os Nossos Parceiros" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <TestimonialCard
-            quote="A NXRSCRIPTS elevou a nossa segurança a um novo patamar. A auditoria detalhada e a implementação de defesas proativas blindaram a nossa infraestrutura contra ataques complexos."
-            author="Carlos Silva"
-            role="CTO"
-            company="TechSolutions Angola"
-            image="/testimonial_carlos.png"
-          />
-          <TestimonialCard
-            quote="Profissionalismo excecional. A equipa identificou vulnerabilidades críticas que outros ignoraram. A resposta a incidentes é rápida e eficaz, garantindo a continuidade do nosso negócio."
-            author="Ana Costa"
-            role="Diretora de TI"
-            company="Banco Atlântico Sul"
-            image="/testimonial_ana.png"
-          />
-          <TestimonialCard
-            quote="Parceiros indispensáveis para a nossa operação. A implementação de arquitetura Zero Trust foi conduzida com maestria técnica e zero impacto na produtividade."
-            author="Miguel Santos"
-            role="CEO"
-            company="InfraRede Global"
-            image="/testimonial_miguel.png"
-          />
+          <AnimateIn delay={0}>
+            <TestimonialCard
+              quote="A NXRSCRIPTS elevou a nossa segurança a um novo patamar. A auditoria detalhada e a implementação de defesas proativas blindaram a nossa infraestrutura contra ataques complexos."
+              author="Carlos Silva"
+              role="CTO"
+              company="TechSolutions Angola"
+              image="/testimonial_carlos.png"
+            />
+          </AnimateIn>
+          <AnimateIn delay={80}>
+            <TestimonialCard
+              quote="Profissionalismo excecional. A equipa identificou vulnerabilidades críticas que outros ignoraram. A resposta a incidentes é rápida e eficaz, garantindo a continuidade do nosso negócio."
+              author="Ana Costa"
+              role="Diretora de TI"
+              company="Banco Atlântico Sul"
+              image="/testimonial_ana.png"
+            />
+          </AnimateIn>
+          <AnimateIn delay={160}>
+            <TestimonialCard
+              quote="Parceiros indispensáveis para a nossa operação. A implementação de arquitetura Zero Trust foi conduzida com maestria técnica e zero impacto na produtividade."
+              author="Miguel Santos"
+              role="CEO"
+              company="InfraRede Global"
+              image="/testimonial_miguel.png"
+            />
+          </AnimateIn>
         </div>
       </div>
     </section>
