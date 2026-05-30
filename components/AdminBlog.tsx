@@ -215,7 +215,7 @@ export const AdminBlog: React.FC = () => {
               <a
                 href="https://www.markdownguide.org/cheat-sheet/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="text-cyan-400 hover:underline"
               >
                 Guia de Markdown

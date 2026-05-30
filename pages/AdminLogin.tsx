@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { validateRedirect } from '../lib/security';
-import { Lock, User, ShieldAlert, Loader2 } from 'lucide-react';
+import { Lock, User, ShieldAlert, Loader2, AlertOctagon } from 'lucide-react';
+import { useRateLimit } from '../hooks/useRateLimit';
 
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,10 @@ const AdminLogin: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { isLocked, timeLeft, recordAttempt, resetAttempts } = useRateLimit({
+    maxAttempts: 3,
+    lockoutDurationMs: 60000,
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +23,9 @@ const AdminLogin: React.FC = () => {
     setError(null);
 
     try {
+      if (isLocked) {
+        throw new Error(`Acesso bloqueado por segurança. Tente novamente em ${timeLeft}s.`);
+      }
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -30,8 +38,12 @@ const AdminLogin: React.FC = () => {
       const nextPath = params.get('next');
       const safePath = validateRedirect(nextPath, '/admin');
 
+      resetAttempts();
       navigate(safePath);
     } catch (err: unknown) {
+      if (!isLocked && err instanceof Error && !err.message.includes('bloqueado')) {
+        recordAttempt();
+      }
       const errorMessage =
         err instanceof Error
           ? err.message
@@ -67,10 +79,20 @@ const AdminLogin: React.FC = () => {
           {/* Scanning Line Effect */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-nxr-primary/50 animate-scan pointer-events-none" />
 
-          {error && (
+          {error && !isLocked && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 flex items-center gap-3 text-red-400 text-sm animate-shake">
               <ShieldAlert className="w-5 h-5 flex-shrink-0" />
               <span>{error}</span>
+            </div>
+          )}
+
+          {isLocked && (
+            <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/30 flex items-center gap-3 text-orange-400 text-sm animate-shake">
+              <AlertOctagon className="w-5 h-5 flex-shrink-0" />
+              <span>
+                Sistema bloqueado após múltiplas tentativas. Aguarde <strong>{timeLeft}s</strong>{' '}
+                antes de tentar novamente.
+              </span>
             </div>
           )}
 
@@ -115,7 +137,7 @@ const AdminLogin: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || isLocked}
               className="w-full relative group overflow-hidden bg-nxr-primary text-nxr-dark font-black py-4 uppercase tracking-widest text-sm hover:bg-white transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
