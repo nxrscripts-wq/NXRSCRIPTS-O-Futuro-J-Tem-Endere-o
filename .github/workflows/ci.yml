@@ -1,0 +1,61 @@
+name: CI — Quality Gates
+
+on:
+  push:
+    branches: [main, develop, 'feature/**', 'fix/**']
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true     # cancelar runs anteriores do mesmo branch
+
+jobs:
+  quality:
+    name: Lint · Type-check · Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificar formatação (Prettier)
+        run: npm run format:check
+
+      - name: Linting (ESLint)
+        run: npm run lint:check
+
+      - name: Type-check (TypeScript)
+        run: npx tsc --noEmit
+
+      - name: Executar testes
+        run: npm run test:run
+
+      - name: Cobertura de código
+        run: npm run test:coverage
+        continue-on-error: true    # não falhar CI por cobertura (warning apenas)
+
+      - name: Build de verificação
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+
+      - name: Upload artefacto de build
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7

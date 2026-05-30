@@ -3,6 +3,8 @@ export interface Service {
   title: string;
   description: string;
   icon: string;
+  category: string;
+  subServices?: string[];
 }
 
 export interface TechItem {

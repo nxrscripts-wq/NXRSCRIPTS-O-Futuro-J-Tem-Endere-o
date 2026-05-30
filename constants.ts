@@ -45,64 +45,221 @@ export const NAV_ITEMS: NavigationItem[] = [
 
 export const SERVICES: Service[] = [
   {
-    id: 'consulting',
-    title: 'Consultoria em Cibersegurança',
-    description: 'Orientação estratégica para alinhar a sua postura de segurança com os objetivos de negócio e conformidade regulatória.',
-    icon: 'ShieldCheck'
+    id: 'dev-software',
+    category: 'Desenvolvimento',
+    title: 'Desenvolvimento de Software',
+    description:
+      'Sistemas empresariais, ERP, CRM, faturação, POS, SaaS, plataformas web, APIs, portais corporativos, dashboards, automação e sistemas financeiros à medida.',
+    icon: 'Code2',
+    subServices: [
+      'Sistemas ERP / CRM',
+      'Sistemas de Faturação e POS',
+      'Plataformas SaaS',
+      'APIs e Integrações',
+      'Dashboards Administrativos',
+      'Automação Empresarial',
+      'Sistemas Financeiros e Fintech',
+      'Gestão Escolar / Hospitalar',
+      'Gestão de Stock e Documental',
+      'Sistemas Governamentais',
+    ],
   },
   {
-    id: 'vulnerability',
-    title: 'Avaliação de Vulnerabilidades',
-    description: 'Monitorização contínua e testes de penetração profundos para identificar pontos fracos antes dos atacantes.',
-    icon: 'ScanEye'
+    id: 'dev-web',
+    category: 'Desenvolvimento',
+    title: 'Desenvolvimento Web',
+    description:
+      'Websites institucionais, landing pages, e-commerce, portais corporativos, intranets, CMS, SEO técnico, performance e manutenção web.',
+    icon: 'Globe',
+    subServices: [
+      'Websites Institucionais',
+      'Landing Pages',
+      'E-commerce',
+      'Portais Corporativos',
+      'Intranets e Extranets',
+      'Portais de Clientes',
+      'CMS',
+      'SEO Técnico e Performance',
+      'Hospedagem e Manutenção',
+    ],
   },
   {
-    id: 'infra',
-    title: 'Segurança de Infraestruturas',
-    description: 'Fortalecimento de redes, servidores e ambientes cloud contra ameaças persistentes avançadas (APTs).',
-    icon: 'Server'
+    id: 'dev-mobile',
+    category: 'Desenvolvimento',
+    title: 'Desenvolvimento Mobile',
+    description:
+      'Aplicações Android e iOS nativas e híbridas, PWA, apps empresariais, financeiras, delivery, educação, saúde e logística.',
+    icon: 'Smartphone',
+    subServices: [
+      'Android',
+      'iOS',
+      'Aplicações Híbridas',
+      'PWA',
+      'Apps Empresariais',
+      'Apps Financeiras',
+      'Delivery e Logística',
+      'Educação e Saúde',
+    ],
+  },
+  {
+    id: 'redes-infra',
+    category: 'Infraestrutura',
+    title: 'Redes e Infraestrutura',
+    description:
+      'Instalação e configuração de redes LAN/WAN/WLAN, cabeamento estruturado, fibra óptica, datacenter, VPN, firewall, Wi-Fi corporativo e monitorização.',
+    icon: 'Network',
+    subServices: [
+      'Redes LAN / WAN / WLAN',
+      'Cabeamento Estruturado',
+      'Fibra Óptica',
+      'Rack e Patch Panel',
+      'Configuração de Switches e Routers',
+      'VPN e Firewall',
+      'Wi-Fi Corporativo',
+      'Datacenter',
+      'Monitorização de Rede',
+      'Balanceamento de Tráfego',
+    ],
+  },
+  {
+    id: 'telecom',
+    category: 'Infraestrutura',
+    title: 'Telecomunicações',
+    description:
+      'Soluções ISP, redes FTTH, VoIP, PBX IP, telefonia IP, comunicação unificada, interligação de filiais, rádio enlace e infraestrutura telecom.',
+    icon: 'Radio',
+    subServices: [
+      'Soluções ISP',
+      'Redes FTTH',
+      'VoIP e PBX IP',
+      'Telefonia IP',
+      'Comunicação Unificada',
+      'Interligação de Filiais',
+      'Rádio Enlace',
+      'Infraestrutura Telecom',
+    ],
+  },
+  {
+    id: 'cybersecurity',
+    category: 'Segurança',
+    title: 'Cibersegurança',
+    description:
+      'Auditorias e análise de vulnerabilidades, pentest, hardening, SIEM, SOC, resposta a incidentes, backup, disaster recovery, segurança cloud e forense digital.',
+    icon: 'ShieldCheck',
+    subServices: [
+      'Auditoria de Segurança',
+      'Pentest',
+      'Hardening de Sistemas',
+      'Gestão de Vulnerabilidades',
+      'SIEM e SOC',
+      'Resposta a Incidentes',
+      'Backup e Disaster Recovery',
+      'Segurança de Redes e Cloud',
+      'IAM e MFA',
+      'Políticas de Segurança',
+      'Forense Digital',
+      'Compliance',
+    ],
   },
   {
     id: 'cloud',
-    title: 'Segurança Cloud & Email',
-    description: 'Proteção de nível empresarial para comunicação corporativa e arquiteturas cloud distribuídas.',
-    icon: 'Cloud'
+    category: 'Cloud',
+    title: 'Cloud Computing',
+    description:
+      'Migração para cloud, infraestrutura cloud, backup, servidores virtuais, containers, Kubernetes, DevOps, CI/CD, VPS, email corporativo e cloud privada/híbrida.',
+    icon: 'Cloud',
+    subServices: [
+      'Cloud Migration',
+      'Infraestrutura Cloud',
+      'Backup Cloud',
+      'Servidores Virtuais (VPS)',
+      'Containers e Kubernetes',
+      'DevOps e CI/CD',
+      'Hosting e Domínios',
+      'Email Corporativo',
+      'Cloud Privada e Híbrida',
+    ],
   },
   {
-    id: 'dev',
-    title: 'Desenvolvimento Seguro',
-    description: 'Abordagem Security-by-design para desenvolvimento web e sistemas, integrando segurança no pipeline CI/CD.',
-    icon: 'Code2'
+    id: 'consultoria',
+    category: 'Consultoria',
+    title: 'Consultoria Tecnológica',
+    description:
+      'Transformação digital, planeamento TI, auditoria, roadmap tecnológico, governança, compliance, PMO, gestão de projectos, CTO as a Service e CISO as a Service.',
+    icon: 'Lightbulb',
+    subServices: [
+      'Transformação Digital',
+      'Planeamento e Auditoria TI',
+      'Roadmap Tecnológico',
+      'Governança e Compliance',
+      'Arquitectura Empresarial',
+      'PMO e Gestão de Projectos',
+      'CTO as a Service',
+      'CISO as a Service',
+      'Optimização de Recursos TI',
+    ],
   },
   {
-    id: 'web-dev',
-    title: 'Desenvolvimento Web',
-    description: 'Criação de sites institucionais, landing pages e plataformas corporativas com arquitetura moderna, escalável e segura.',
-    icon: 'Globe'
+    id: 'ia-automacao',
+    category: 'IA & Automação',
+    title: 'IA e Automação',
+    description:
+      'Chatbots IA, assistentes inteligentes, automação de processos, OCR, IA empresarial, agentes IA, workflows, Business Intelligence e Machine Learning.',
+    icon: 'BrainCircuit',
+    subServices: [
+      'Chatbots e Assistentes IA',
+      'Automação de Processos (RPA)',
+      'OCR e Processamento de Documentos',
+      'IA Empresarial e Integrações',
+      'Agentes IA',
+      'Business Intelligence',
+      'Analytics e Dashboards',
+      'Machine Learning',
+      'Workflow Automation',
+    ],
   },
   {
-    id: 'mobile-dev',
-    title: 'Desenvolvimento Mobile',
-    description: 'Aplicações nativas e híbridas para Android e iOS, desenhadas para performance superior e experiência de utilizador robusta.',
-    icon: 'Smartphone'
+    id: 'managed-services',
+    category: 'Suporte',
+    title: 'Serviços Geridos (MSP)',
+    description:
+      'Helpdesk, suporte remoto, outsourcing TI, monitorização contínua, gestão de servidores e endpoints, gestão de utilizadores e SLA corporativo.',
+    icon: 'Headphones',
+    subServices: [
+      'Helpdesk e Suporte Remoto',
+      'Outsourcing TI',
+      'Monitorização Contínua',
+      'Gestão de Servidores',
+      'Gestão de Endpoints',
+      'Gestão de Utilizadores (IAM)',
+      'SLA Corporativo',
+      'Suporte Empresarial',
+    ],
   },
-  {
-    id: 'networks',
-    title: 'Redes e Infraestruturas',
-    description: 'Instalação, configuração e manutenção integral de redes corporativas, garantindo conectividade estável e gestão eficiente.',
-    icon: 'Network'
-  },
-  {
-    id: 'support',
-    title: 'Manutenção e Suporte',
-    description: 'Suporte técnico 24/7 e equipas de resposta a incidentes prontas para mitigar ameaças ativas.',
-    icon: 'Activity'
-  }
 ];
 
 export const TECHNOLOGIES: TechItem[] = [
-  { name: 'Arquitetura Zero Trust', category: 'Metodologia', description: 'Nunca confiar, verificar sempre. Verificação rigorosa de identidade para cada pessoa e dispositivo.' },
-  { name: 'SIEM de Próxima Geração', category: 'Monitorização', description: 'Análise em tempo real de alertas de segurança gerados por aplicações e hardware de rede.' },
-  { name: 'Deteção de Ameaças por IA', category: 'Inovação', description: 'Algoritmos de machine learning que preveem e neutralizam vetores de ataque desconhecidos.' },
-  { name: 'Criptografia Pós-Quântica', category: 'Criptografia', description: 'Integridade de dados à prova de futuro contra ameaças de computação quântica.' },
+  {
+    name: 'Arquitetura Zero Trust',
+    category: 'Metodologia',
+    description:
+      'Nunca confiar, verificar sempre. Verificação rigorosa de identidade para cada pessoa e dispositivo.',
+  },
+  {
+    name: 'SIEM de Próxima Geração',
+    category: 'Monitorização',
+    description:
+      'Análise em tempo real de alertas de segurança gerados por aplicações e hardware de rede.',
+  },
+  {
+    name: 'Deteção de Ameaças por IA',
+    category: 'Inovação',
+    description:
+      'Algoritmos de machine learning que preveem e neutralizam vetores de ataque desconhecidos.',
+  },
+  {
+    name: 'Criptografia Pós-Quântica',
+    category: 'Criptografia',
+    description: 'Integridade de dados à prova de futuro contra ameaças de computação quântica.',
+  },
 ];
