@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
       {/* Radiant Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-nxr-primary/10 rounded-full blur-[120px] z-0 pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 py-20 sm:py-32 md:py-0 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-32 pb-20 sm:pt-48 sm:pb-32 text-center">
         <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-nxr-primary/30 bg-nxr-primary/5 backdrop-blur-sm mt-4 md:mt-0">
           <span className="text-nxr-primary font-mono text-[10px] md:text-xs uppercase tracking-wider">
             TECNOLOGIA • INOVAÇÃO • TRANSFORMAÇÃO DIGITAL
