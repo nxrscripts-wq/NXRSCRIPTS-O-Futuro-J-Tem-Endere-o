@@ -282,7 +282,7 @@ const About: React.FC = () => {
             <div className="md:col-start-1">
               <AnimateIn delay={0}>
                 <TeamMember
-                  name="ELVINO JACINTO FRANCISCO"
+                  name="ELVINO FRANCISCO"
                   role="Fundador & CEO — Diretor Geral"
                   bio="Fundador da NXRSCRIPTS, com foco no desenvolvimento de soluções tecnológicas inovadoras para o mercado angolano. Lidera a estratégia, operações e visão técnica da empresa."
                   image="/team/ceo-elvino.jpg"
