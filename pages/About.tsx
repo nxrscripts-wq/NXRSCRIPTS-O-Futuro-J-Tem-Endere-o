@@ -181,7 +181,7 @@ const About: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4">
             <SectionHeader title="Visão e Compromisso" subtitle="Os Princípios que Nos Guiam" />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12">
               <AnimateIn delay={0}>
                 <div className="text-center p-6">
                   <div className="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center text-nxr-primary mb-6">
@@ -228,7 +228,7 @@ const About: React.FC = () => {
             subtitle="Soluções tecnológicas end-to-end para o mercado angolano"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             <AnimateIn delay={0}>
               <AreaCard
                 icon={<Monitor className="w-6 h-6" />}
@@ -278,7 +278,7 @@ const About: React.FC = () => {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
           <SectionHeader title="Liderança" subtitle="Fundador e Diretor Geral" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12">
             <div className="md:col-start-1">
               <AnimateIn delay={0}>
                 <TeamMember

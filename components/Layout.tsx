@@ -6,14 +6,30 @@ import { Chatbot } from './Chatbot';
 
 const prefetchRoute = (path: string) => {
   switch (path) {
-    case '/': import('../pages/Home'); break;
-    case '/about': import('../pages/About'); break;
-    case '/services': import('../pages/Services'); break;
-    case '/store': import('../pages/Store'); break;
-    case '/technologies': import('../pages/Technologies'); break;
-    case '/blog': import('../pages/Blog'); break;
-    case '/quote': import('../pages/Quote'); break;
-    case '/contact': import('../pages/Contact'); break;
+    case '/':
+      import('../pages/Home');
+      break;
+    case '/about':
+      import('../pages/About');
+      break;
+    case '/services':
+      import('../pages/Services');
+      break;
+    case '/store':
+      import('../pages/Store');
+      break;
+    case '/technologies':
+      import('../pages/Technologies');
+      break;
+    case '/blog':
+      import('../pages/Blog');
+      break;
+    case '/quote':
+      import('../pages/Quote');
+      break;
+    case '/contact':
+      import('../pages/Contact');
+      break;
   }
 };
 
@@ -33,7 +49,9 @@ const Navbar: React.FC = () => {
   }, [location]);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-nxr-dark/95 backdrop-blur-md border-b border-nxr-border' : 'bg-transparent'}`}>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-nxr-dark/95 backdrop-blur-md border-b border-nxr-border' : 'bg-transparent'}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link to="/" className="flex items-center group">
@@ -50,13 +68,14 @@ const Navbar: React.FC = () => {
 
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {NAV_ITEMS.map((item) => (
+              {NAV_ITEMS.map(item => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onMouseEnter={() => prefetchRoute(item.path)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:text-nxr-primary ${location.pathname === item.path ? 'text-nxr-primary' : 'text-slate-300'
-                    }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:text-nxr-primary ${
+                    location.pathname === item.path ? 'text-nxr-primary' : 'text-slate-300'
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -79,13 +98,16 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-nxr-dark border-b border-nxr-border animate-in slide-in-from-top duration-300">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {NAV_ITEMS.map((item) => (
+            {NAV_ITEMS.map(item => (
               <Link
                 key={item.path}
                 to={item.path}
                 onMouseEnter={() => prefetchRoute(item.path)}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${location.pathname === item.path ? 'text-nxr-primary bg-nxr-panel' : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                  }`}
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  location.pathname === item.path
+                    ? 'text-nxr-primary bg-nxr-panel'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                }`}
               >
                 {item.label}
               </Link>
@@ -103,7 +125,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-nxr-panel border-t border-nxr-border pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="inline-block mb-4">
               <picture>
@@ -119,51 +141,120 @@ const Footer: React.FC = () => {
               </picture>
             </Link>
             <p className="text-nxr-text text-sm leading-relaxed max-w-xs">
-              Protegendo a fronteira digital com inteligência avançada e defesa robusta de infraestruturas críticas mundiais.
+              Protegendo a fronteira digital com inteligência avançada e defesa robusta de
+              infraestruturas críticas mundiais.
             </p>
           </div>
           <div>
-            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">Serviços</h3>
+            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">
+              Serviços
+            </h3>
             <ul className="space-y-2 text-sm text-nxr-text">
-              <li><Link to="/services" className="hover:text-nxr-primary transition-colors">Avaliação de Vulnerabilidades</Link></li>
-              <li><Link to="/services" className="hover:text-nxr-primary transition-colors">Desenvolvimento Seguro</Link></li>
-              <li><Link to="/services" className="hover:text-nxr-primary transition-colors">Segurança Cloud</Link></li>
-              <li><Link to="/store" className="hover:text-nxr-primary transition-colors">Hardware Certificado</Link></li>
+              <li>
+                <Link to="/services" className="hover:text-nxr-primary transition-colors">
+                  Avaliação de Vulnerabilidades
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-nxr-primary transition-colors">
+                  Desenvolvimento Seguro
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-nxr-primary transition-colors">
+                  Segurança Cloud
+                </Link>
+              </li>
+              <li>
+                <Link to="/store" className="hover:text-nxr-primary transition-colors">
+                  Hardware Certificado
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">Empresa</h3>
+            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">
+              Empresa
+            </h3>
             <ul className="space-y-2 text-sm text-nxr-text">
-              <li><Link to="/about" className="hover:text-nxr-primary transition-colors">Sobre Nós</Link></li>
-              <li><Link to="/technologies" className="hover:text-nxr-primary transition-colors">Tecnologias</Link></li>
-              <li><Link to="/contact" className="hover:text-nxr-primary transition-colors">Contacto</Link></li>
-              <li><Link to="/contact" className="hover:text-nxr-primary transition-colors">Carreiras</Link></li>
+              <li>
+                <Link to="/about" className="hover:text-nxr-primary transition-colors">
+                  Sobre Nós
+                </Link>
+              </li>
+              <li>
+                <Link to="/technologies" className="hover:text-nxr-primary transition-colors">
+                  Tecnologias
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-nxr-primary transition-colors">
+                  Contacto
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-nxr-primary transition-colors">
+                  Carreiras
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">Conecte-se</h3>
+            <h3 className="text-white font-semibold mb-4 tracking-wide uppercase text-xs font-mono">
+              Conecte-se
+            </h3>
             <div className="flex space-x-4 mb-6">
               {COMPANY_INFO.social.linkedin && (
-                <a href={COMPANY_INFO.social.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors" aria-label="LinkedIn">
+                <a
+                  href={COMPANY_INFO.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors"
+                  aria-label="LinkedIn"
+                >
                   <Linkedin size={16} />
                 </a>
               )}
               {COMPANY_INFO.social.twitter && (
-                <a href={COMPANY_INFO.social.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors" aria-label="Twitter">
+                <a
+                  href={COMPANY_INFO.social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors"
+                  aria-label="Twitter"
+                >
                   <Twitter size={16} />
                 </a>
               )}
               {COMPANY_INFO.social.facebook && (
-                <a href={COMPANY_INFO.social.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors" aria-label="Facebook">
+                <a
+                  href={COMPANY_INFO.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors"
+                  aria-label="Facebook"
+                >
                   <Facebook size={16} />
                 </a>
               )}
               {COMPANY_INFO.social.instagram && (
-                <a href={COMPANY_INFO.social.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors" aria-label="Instagram">
+                <a
+                  href={COMPANY_INFO.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors"
+                  aria-label="Instagram"
+                >
                   <Instagram size={16} />
                 </a>
               )}
-              <a href={COMPANY_INFO.contact.whatsappLink} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors" aria-label="Whatsapp">
+              <a
+                href={COMPANY_INFO.contact.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded bg-nxr-border flex items-center justify-center text-nxr-text hover:bg-nxr-primary hover:text-nxr-dark transition-colors"
+                aria-label="Whatsapp"
+              >
                 <MessageCircle size={16} />
               </a>
             </div>
@@ -172,12 +263,24 @@ const Footer: React.FC = () => {
         </div>
         <div className="border-t border-nxr-border pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600">
           <div className="flex space-x-6 mb-4 md:mb-0">
-            <Link to="/privacy" className="hover:text-slate-400 transition-colors">Política de Privacidade</Link>
-            <Link to="/contact" className="hover:text-slate-400 transition-colors">Termos de Serviço</Link>
-            <Link to="/contact" className="hover:text-slate-400 transition-colors">Cookies</Link>
+            <Link to="/privacy" className="hover:text-slate-400 transition-colors">
+              Política de Privacidade
+            </Link>
+            <Link to="/contact" className="hover:text-slate-400 transition-colors">
+              Termos de Serviço
+            </Link>
+            <Link to="/contact" className="hover:text-slate-400 transition-colors">
+              Cookies
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <p>© {COMPANY_INFO.founded === currentYear ? currentYear : `${COMPANY_INFO.founded}–${currentYear}`} {COMPANY_INFO.name}. Operações Seguras.</p>
+            <p>
+              ©{' '}
+              {COMPANY_INFO.founded === currentYear
+                ? currentYear
+                : `${COMPANY_INFO.founded}–${currentYear}`}{' '}
+              {COMPANY_INFO.name}. Operações Seguras.
+            </p>
           </div>
         </div>
       </div>
@@ -187,13 +290,11 @@ const Footer: React.FC = () => {
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
-  
+
   return (
     <div className="min-h-screen bg-nxr-dark text-slate-300 flex flex-col selection:bg-nxr-primary selection:text-nxr-dark">
       <Navbar />
-      <main className="flex-grow">
-        {children}
-      </main>
+      <main className="flex-grow">{children}</main>
       <Footer />
       {!location.pathname.startsWith('/admin') && <Chatbot />}
     </div>

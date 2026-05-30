@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
       {/* Radiant Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-nxr-primary/10 rounded-full blur-[120px] z-0 pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 py-32 md:py-0 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-20 sm:py-32 md:py-0 text-center">
         <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-nxr-primary/30 bg-nxr-primary/5 backdrop-blur-sm mt-4 md:mt-0">
           <span className="text-nxr-primary font-mono text-[10px] md:text-xs uppercase tracking-wider">
             TECNOLOGIA • INOVAÇÃO • TRANSFORMAÇÃO DIGITAL
@@ -59,7 +59,7 @@ const Hero: React.FC = () => {
           empreendedores.
         </p>
 
-        <div className="bg-[#0b1329] border border-nxr-border p-6 rounded-sm inline-block mb-10">
+        <div className="inline-block mb-10">
           <p className="text-2xl md:text-3xl font-bold text-white mb-2">
             O futuro já tem endereço.
           </p>
@@ -112,7 +112,7 @@ const Highlights: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader title="Pilares da Marca" subtitle="O Que Nos Move" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           <AnimateIn delay={0}>
             <FeatureCard
               icon={<Users className="w-8 h-8" />}
@@ -148,7 +148,7 @@ const TrustSection: React.FC = () => {
           title="Parceiros e Colaborações"
           subtitle="Construindo o futuro em conjunto"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12">
           <AnimateIn delay={0}>
             <div className="border border-nxr-border bg-nxr-panel p-8 hover:border-nxr-primary transition-all duration-300 flex flex-col h-full">
               <img
@@ -340,7 +340,7 @@ const Testimonials: React.FC = () => {
           subtitle="Parceiros e clientes que confiam na NXRSCRIPTS"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           <AnimateIn delay={0}>
             <TestimonialCard
               quote="A NXRSCRIPTS elevou a nossa segurança a um novo patamar. A auditoria detalhada e a implementação de defesas proativas blindaram a nossa infraestrutura contra ataques complexos."
