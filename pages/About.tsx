@@ -13,6 +13,7 @@ import {
   UserPlus,
   Linkedin,
   Facebook,
+  ArrowRight,
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
@@ -28,11 +29,11 @@ const TeamMember: React.FC<{
   badges?: string[];
 }> = ({ name, role, bio, image, badges }) => (
   <div className="group bg-nxr-panel border border-nxr-border rounded-sm hover:border-nxr-primary transition-all duration-300 overflow-hidden flex flex-col h-full">
-    <div className="relative h-[320px] w-full overflow-hidden bg-slate-800 border-b border-nxr-border">
+    <div className="relative aspect-square w-full overflow-hidden bg-slate-800 border-b border-nxr-border">
       <img
         src={image}
         alt={name}
-        className="h-full w-full object-cover object-top opacity-90 group-hover:scale-105 transition-transform duration-500"
+        className="h-full w-full object-cover object-center opacity-90 group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
         decoding="async"
       />
@@ -79,19 +80,46 @@ const TeamMember: React.FC<{
   </div>
 );
 
-const OpenPositionCard: React.FC = () => (
-  <div className="h-[400px] w-full rounded-sm bg-slate-900 border border-dashed border-slate-700 hover:border-nxr-primary/50 transition-colors duration-300 flex flex-col items-center justify-center p-6 text-center group">
-    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-      <UserPlus className="w-8 h-8 text-slate-500 group-hover:text-nxr-primary transition-colors" />
+const LeadershipRoleCard: React.FC<{
+  role: string;
+  department: string;
+  description: string;
+  icon: React.ReactNode;
+}> = ({ role, department, description, icon }) => (
+  <div className="group bg-nxr-panel border border-nxr-border rounded-sm hover:border-nxr-primary transition-all duration-300 overflow-hidden flex flex-col h-full">
+    <div className="relative aspect-square w-full bg-slate-900 border-b border-nxr-border flex flex-col items-center justify-center p-8 text-center group-hover:bg-slate-800 transition-colors duration-500">
+      <div className="w-20 h-20 rounded-full bg-nxr-dark border border-slate-700 flex items-center justify-center text-slate-500 group-hover:text-nxr-primary group-hover:border-nxr-primary/50 group-hover:scale-110 transition-all duration-500 mb-6">
+        {icon}
+      </div>
+      <h4 className="text-xl font-bold text-slate-300 mb-2 group-hover:text-white transition-colors">
+        {role}
+      </h4>
+      <p className="text-nxr-primary text-[10px] font-mono uppercase tracking-widest">
+        Posição em Estruturação
+      </p>
     </div>
-    <h4 className="text-lg font-bold text-slate-300 mb-2">Posição em Aberto</h4>
-    <p className="text-sm text-slate-500 mb-6">Integra a equipa NXRSCRIPTS</p>
-    <Link
-      to="/contact"
-      className="text-xs font-mono text-nxr-primary border border-nxr-primary/30 px-4 py-2 hover:bg-nxr-primary hover:text-nxr-dark transition-colors uppercase tracking-widest"
-    >
-      Candidatar-se
-    </Link>
+
+    <div className="p-6 md:p-8 flex flex-col flex-grow relative bg-nxr-panel">
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className="text-[10px] font-mono bg-slate-800 text-slate-400 px-2 py-1 rounded-sm border border-slate-700 uppercase tracking-widest">
+          {department}
+        </span>
+        <span className="text-[10px] font-mono bg-nxr-primary/10 text-nxr-primary px-2 py-1 rounded-sm border border-nxr-primary/30 uppercase tracking-widest">
+          EM BREVE
+        </span>
+      </div>
+      <h4 className="text-lg font-bold text-white mb-2">Perfil da Função</h4>
+      <p className="text-slate-400 text-sm leading-relaxed flex-grow">{description}</p>
+
+      <div className="mt-6 pt-4 border-t border-slate-800">
+        <Link
+          to="/contact"
+          className="inline-flex items-center text-xs font-mono text-slate-500 hover:text-nxr-primary uppercase tracking-widest transition-colors"
+        >
+          Manifestar Interesse <ArrowRight className="ml-2 w-3 h-3" />
+        </Link>
+      </div>
+    </div>
   </div>
 );
 
@@ -298,12 +326,22 @@ const About: React.FC = () => {
             </div>
             <div className="md:col-start-2">
               <AnimateIn delay={80}>
-                <OpenPositionCard />
+                <LeadershipRoleCard
+                  role="Diretor de Tecnologia (CTO)"
+                  department="Engenharia & Inovação"
+                  description="Responsável por liderar a visão tecnológica da NXRSCRIPTS, arquitetar soluções de software robustas e gerir a equipa de desenvolvimento e infraestrutura."
+                  icon={<Code2 className="w-10 h-10" />}
+                />
               </AnimateIn>
             </div>
             <div className="md:col-start-3">
               <AnimateIn delay={160}>
-                <OpenPositionCard />
+                <LeadershipRoleCard
+                  role="Diretor de Cibersegurança (CISO)"
+                  department="Segurança & Auditoria"
+                  description="Lidera as operações de defesa cibernética, garantindo a proteção rigorosa das infraestruturas dos clientes, auditorias contínuas e resposta a incidentes."
+                  icon={<ShieldCheck className="w-10 h-10" />}
+                />
               </AnimateIn>
             </div>
           </div>
