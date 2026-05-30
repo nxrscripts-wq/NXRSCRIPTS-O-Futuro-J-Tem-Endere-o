@@ -99,7 +99,7 @@ const Services: React.FC = () => {
           ...SERVICES.map(s => serviceSchema(s.title, s.description, s.title)),
         ]}
       />
-      <div className="pt-20 sm:pt-16 pb-0 min-h-screen">
+      <div className="pt-24 sm:pt-32 pb-0 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
           <SectionHeader
             title="Serviços Prestados"
