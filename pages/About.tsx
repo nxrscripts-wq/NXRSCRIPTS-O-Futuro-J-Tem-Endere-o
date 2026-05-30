@@ -27,47 +27,53 @@ const TeamMember: React.FC<{
   image: string;
   badges?: string[];
 }> = ({ name, role, bio, image, badges }) => (
-  <div className="group relative">
-    <div className="relative h-[400px] w-full overflow-hidden rounded-sm bg-slate-800 border border-nxr-border group-hover:border-nxr-primary transition-colors duration-300">
+  <div className="group bg-nxr-panel border border-nxr-border rounded-sm hover:border-nxr-primary transition-all duration-300 overflow-hidden flex flex-col h-full">
+    <div className="relative h-[320px] w-full overflow-hidden bg-slate-800 border-b border-nxr-border">
       <img
         src={image}
         alt={name}
-        className="h-full w-full object-cover opacity-80 group-hover:scale-105 transition-all duration-500"
+        className="h-full w-full object-cover object-top opacity-90 group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
         decoding="async"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-nxr-dark via-nxr-dark/60 to-transparent opacity-90" />
+    </div>
 
-      <div className="absolute bottom-0 left-0 p-6 w-full">
-        {badges && (
-          <div className="flex flex-wrap gap-2 mb-3">
-            {badges.map((badge, idx) => (
-              <span
-                key={idx}
-                className="text-[10px] font-mono bg-nxr-primary/20 text-nxr-primary px-2 py-0.5 rounded-sm border border-nxr-primary/30 uppercase"
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
-        )}
-        <h4 className="text-2xl font-bold text-white mb-1">{name}</h4>
-        <p className="text-nxr-primary text-xs font-mono uppercase tracking-widest mb-3">{role}</p>
-        <p className="text-slate-300 text-sm line-clamp-3 mb-4">{bio}</p>
-        <div className="flex space-x-3">
-          <a
-            href="https://www.linkedin.com/in/elviino-francisco-7b61393a7/"
-            className="text-slate-400 hover:text-white transition-colors bg-slate-800/50 p-2 rounded-full border border-slate-700 hover:border-nxr-primary"
-          >
-            <Linkedin size={16} />
-          </a>
-          <a
-            href="https://web.facebook.com/elviinojf/"
-            className="text-slate-400 hover:text-white transition-colors bg-slate-800/50 p-2 rounded-full border border-slate-700 hover:border-nxr-primary"
-          >
-            <Facebook size={16} />
-          </a>
+    <div className="p-6 md:p-8 flex flex-col flex-grow relative bg-nxr-panel">
+      {badges && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {badges.map((badge, idx) => (
+            <span
+              key={idx}
+              className="text-[10px] font-mono bg-nxr-primary/10 text-nxr-primary px-2 py-1 rounded-sm border border-nxr-primary/30 uppercase tracking-widest"
+            >
+              {badge}
+            </span>
+          ))}
         </div>
+      )}
+      <h4 className="text-2xl font-bold text-white mb-1">{name}</h4>
+      <p className="text-nxr-primary text-[10px] font-mono uppercase tracking-widest mb-4">
+        {role}
+      </p>
+      <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">{bio}</p>
+
+      <div className="flex space-x-3 mt-auto pt-4 border-t border-slate-800">
+        <a
+          href="https://www.linkedin.com/in/elviino-francisco-7b61393a7/"
+          className="text-slate-400 hover:text-white transition-colors bg-nxr-dark p-2 rounded-full border border-nxr-border hover:border-nxr-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Linkedin size={16} />
+        </a>
+        <a
+          href="https://web.facebook.com/elviinojf/"
+          className="text-slate-400 hover:text-white transition-colors bg-nxr-dark p-2 rounded-full border border-nxr-border hover:border-nxr-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Facebook size={16} />
+        </a>
       </div>
     </div>
   </div>
