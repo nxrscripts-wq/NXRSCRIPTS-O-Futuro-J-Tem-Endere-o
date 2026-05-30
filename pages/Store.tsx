@@ -378,11 +378,11 @@ const Store: React.FC = () => {
   return (
     <>
       <SEOHead page={SEO_PAGES.store} jsonLd={organizationSchema()} />
-      <div className="pt-20 sm:pt-28 pb-24">
+      <div className="pt-16 sm:pt-20 pb-24">
         <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={handleCloseModal} />
 
         {/* Simplified Store Header */}
-        <section className="bg-nxr-dark py-16 border-b border-nxr-border">
+        <section className="bg-nxr-dark pt-8 pb-16 border-b border-nxr-border">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <div className="inline-flex items-center justify-center px-4 py-1.5 bg-nxr-primary/5 border border-nxr-primary/20 rounded-full mb-6">
               <ShoppingBag className="w-4 h-4 text-nxr-primary mr-2" />
