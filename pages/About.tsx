@@ -107,7 +107,7 @@ const About: React.FC = () => {
   return (
     <>
       <SEOHead page={SEO_PAGES.about} jsonLd={organizationSchema()} />
-      <div className="pt-24 sm:pt-32 pb-0">
+      <div className="pt-20 sm:pt-28 pb-0">
         {/* Hero-like intro */}
         <section className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">

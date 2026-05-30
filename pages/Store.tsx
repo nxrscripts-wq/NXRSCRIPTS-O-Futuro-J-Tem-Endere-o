@@ -378,7 +378,7 @@ const Store: React.FC = () => {
   return (
     <>
       <SEOHead page={SEO_PAGES.store} jsonLd={organizationSchema()} />
-      <div className="pt-24 sm:pt-32 pb-24">
+      <div className="pt-20 sm:pt-28 pb-24">
         <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={handleCloseModal} />
 
         {/* Simplified Store Header */}

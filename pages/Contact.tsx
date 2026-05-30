@@ -115,7 +115,7 @@ const Contact: React.FC = () => {
   return (
     <>
       <SEOHead page={SEO_PAGES.contact} jsonLd={[organizationSchema(), localBusinessSchema()]} />
-      <div className="pt-24 sm:pt-32 pb-24">
+      <div className="pt-20 sm:pt-28 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader title="Fale Connosco" subtitle="Canal de Comunicação Seguro" />
 

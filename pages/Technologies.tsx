@@ -28,7 +28,7 @@ const Technologies: React.FC = () => {
   return (
     <>
       <SEOHead page={SEO_PAGES.technologies} jsonLd={organizationSchema()} />
-      <div className="pt-24 sm:pt-32 pb-24">
+      <div className="pt-20 sm:pt-28 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader title="Inovação" subtitle="A Tech Stack da NXR" />
 
