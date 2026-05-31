@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { sendChatMessage } from '../services/geminiService';
 
 type Role = 'user' | 'model';
 
@@ -85,17 +85,8 @@ export const Chatbot: React.FC = () => {
       // Limit to last 10 messages for context
       const contextHistory = messages.slice(-10);
 
-      const { data, error } = await supabase.functions.invoke('chat', {
-        body: { message: userMsg.text, history: contextHistory },
-      });
-
-      if (error) throw new Error(error.message);
-
-      if (data && data.reply) {
-        setMessages(prev => [...prev, { role: 'model', text: data.reply }]);
-      } else {
-        throw new Error('No reply from assistant');
-      }
+      const reply = await sendChatMessage(userMsg.text, contextHistory);
+      setMessages(prev => [...prev, { role: 'model', text: reply }]);
     } catch (err) {
       console.error('Chat error:', err);
       setMessages(prev => [
