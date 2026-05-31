@@ -79,9 +79,11 @@ export default tseslint.config(
       'node_modules/**',
       'coverage/**',
       '*.config.js',
-      'supabase/functions/**', // Deno usa sintaxe diferente
+      'supabase/functions/**',
       'public/**',
-      '__tests__/**', // Desativado strict checking nos testes para não poluir
+      '__tests__/**',
+      '.venv-rembg/**',
+      '.vercel/**',
     ],
   }
 );
