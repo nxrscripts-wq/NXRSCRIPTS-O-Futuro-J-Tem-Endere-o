@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Linkedin, Twitter, Facebook, MessageCircle, Instagram } from 'lucide-react';
 import { NAV_ITEMS, COMPANY_INFO } from '../constants';
-import { Chatbot } from './Chatbot';
+import Chatbot from './Chatbot';
 
 const prefetchRoute = (path: string) => {
   switch (path) {
@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
