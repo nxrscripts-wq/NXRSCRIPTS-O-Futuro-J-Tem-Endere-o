@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Linkedin, Twitter, Facebook, MessageCircle, Instagram } from 'lucide-react';
 import { NAV_ITEMS, COMPANY_INFO } from '../constants';
@@ -37,6 +37,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -48,8 +49,25 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <nav
+      ref={navRef}
       className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-nxr-dark/95 backdrop-blur-md border-b border-nxr-border' : 'bg-transparent'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,18 +145,15 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="inline-block mb-4">
-              <picture>
-                <source srcSet="/nxrscripts-logo.webp" type="image/webp" />
-                <img
-                  src="/nxrscripts-logo.png"
-                  alt="NXRSCRIPTS"
-                  width="400"
-                  height="133"
-                  loading="lazy"
-                  className="h-16 w-auto aspect-[3/1] object-contain"
-                />
-              </picture>
+            <Link to="/" className="inline-block mb-4 group">
+              <img
+                src="/nxrscripts-logo.png"
+                alt="NXRSCRIPTS"
+                width="400"
+                height="133"
+                loading="lazy"
+                className="h-16 w-auto aspect-[3/1] object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]"
+              />
             </Link>
             <p className="text-nxr-text text-sm leading-relaxed max-w-xs">
               Protegendo a fronteira digital com inteligência avançada e defesa robusta de

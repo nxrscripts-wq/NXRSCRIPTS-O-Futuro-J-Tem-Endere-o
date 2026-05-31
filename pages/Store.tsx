@@ -1,475 +1,252 @@
-import React, { useState, useEffect } from 'react';
-
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import {
-  Laptop,
-  Cpu,
-  Router,
-  ShieldCheck,
-  MonitorPlay,
-  Briefcase,
-  ArrowRight,
+  Search,
   ShoppingBag,
-  X,
-  Check,
-  Activity,
-  Filter,
+  ArrowRight,
+  ShieldCheck,
+  Laptop,
+  MonitorPlay,
+  Router,
+  Briefcase,
+  Cpu,
   MousePointer2,
   HardDrive,
-  Search,
+  Box,
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 import { SEO_PAGES } from '../lib/seo';
 import { organizationSchema } from '../lib/jsonld';
 import { AnimateIn } from '../components/AnimateIn';
+import { ProductModal } from '../components/ProductModal';
+import { Product } from '../types';
+import {
+  fetchActiveProducts,
+  formatPrice,
+  getCategoryList,
+  buildWhatsAppLink,
+} from '../services/storeService';
 
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  iconName: string;
-  specs: string[];
-  category: string;
-}
-
-const PRODUCTS: Product[] = [
-  {
-    id: 'ram-kingston-16gb',
-    title: 'Kingston Fury Beast 16GB',
-    description:
-      'Memória RAM DDR5 de alta velocidade otimizada para multitarefa intensiva e processamento de segurança.',
-    iconName: 'Cpu',
-    specs: ['DDR5 5200MHz', 'Latência CL40', 'Dissipador de Alumínio', 'Garantia Vitalícia'],
-    category: 'Memória RAM',
-  },
-  {
-    id: 'ram-corsair-32gb',
-    title: 'Corsair Vengeance 32GB',
-    description:
-      'Kit de memória premium para servidores e estações de trabalho que exigem estabilidade absoluta.',
-    iconName: 'Cpu',
-    specs: [
-      '2x 16GB DDR4 3600MHz',
-      'Perfil XMP 2.0',
-      'Iluminação RGB Customizável',
-      'Compatível com Intel/AMD',
-    ],
-    category: 'Memória RAM',
-  },
-  {
-    id: 'hd-seagate-4tb',
-    title: 'Seagate IronWolf 4TB',
-    description:
-      'Disco rígido especializado para sistemas NAS e armazenamento de logs de segurança em larga escala.',
-    iconName: 'HardDrive',
-    specs: ['Interface SATA 6Gb/s', '5400 RPM', 'Cache 256MB', 'AgileArray Firmware'],
-    category: 'Disco duro',
-  },
-  {
-    id: 'ssd-samsung-990-1tb',
-    title: 'Samsung 990 Pro 1TB',
-    description:
-      'SSD NVMe de última geração com velocidades extremas para carregamento instantâneo de ferramentas de análise.',
-    iconName: 'HardDrive',
-    specs: ['PCIe Gen 4.0 x4', '7,450 MB/s Leitura', '6,900 MB/s Escrita', 'Tecnologia V-NAND'],
-    category: 'SSD',
-  },
-  {
-    id: 'cpu-intel-i9',
-    title: 'Intel Core i9-14900K',
-    description:
-      'Processador topo de gama com arquitetura híbrida para processamento paralelo de alto nível.',
-    iconName: 'Cpu',
-    specs: ['24 Cores (8P + 16E)', 'Até 6.0 GHz Turbo', 'Cache 36MB L3', 'Gráficos UHD 770'],
-    category: 'Processador',
-  },
-  {
-    id: 'laptop-alienware-m18',
-    title: 'Alienware m18 R2',
-    description:
-      'Estação de trabalho móvel com ecrã gigante e poder de processamento equivalente a um desktop.',
-    iconName: 'Laptop',
-    specs: ['RTX 4080 12GB', 'Core i9-14900HX', 'Ecrã 18" QHD+', '32GB DDR5'],
-    category: 'Computadores',
-  },
-  {
-    id: 'desktop-nxr-workstation',
-    title: 'NXR Workstation Elite',
-    description:
-      'Desktop empresarial montado sob medida para máxima segurança e desempenho em redes corporativas.',
-    iconName: 'Laptop',
-    specs: ['Xeon Gold 6226R', '64GB RAM ECC', 'Quadro RTX 4000', 'Windows 11 Pro Enterprise'],
-    category: 'Computadores',
-  },
-  {
-    id: 'monitor-lg-32',
-    title: 'LG UltraGear 32"',
-    description:
-      'Monitor de alta definição com fidelidade de cor excepcional para visualização de sistemas complexos.',
-    iconName: 'MonitorPlay',
-    specs: ['Resolução 4K UHD', '144Hz Refresh Rate', 'Painel Nano IPS', 'G-Sync Compatible'],
-    category: 'Monitores',
-  },
-  {
-    id: 'keyboard-razer-blackwidow',
-    title: 'Razer BlackWidow V4',
-    description:
-      'Teclado mecânico de resposta rápida para operadores que exigem precisão em cada tecla pressionada.',
-    iconName: 'Router',
-    specs: [
-      'Switches Amarelos Silenciosos',
-      'Chapas de Alumínio',
-      'Teclas Macro Dedicadas',
-      'RGB Chroma',
-    ],
-    category: 'Teclado',
-  },
-  {
-    id: 'mouse-logitech-g502',
-    title: 'Logitech G502 X Plus',
-    description:
-      'O rato sem fios mais avançado para ergonomia e produtividade em ambientes de monitorização.',
-    iconName: 'MousePointer2',
-    specs: ['Sensor Hero 25K', 'Lightspeed Wireless', 'Botão DPI Ajustável', 'Switches Lightforce'],
-    category: 'Mouse',
-  },
-  {
-    id: 'gpu-rtx-4090',
-    title: 'ASUS ROG Strix RTX 4090',
-    description:
-      'A placa de vídeo definitiva para computação acelerada por GPU e inteligência artificial.',
-    iconName: 'Cpu',
-    specs: [
-      '24GB GDDR6X',
-      'Arquitetura Ada Lovelace',
-      'Núcleos Tensor 4.ª Gen',
-      'Ventoinhas Axial-tech',
-    ],
-    category: 'Placa de vídeo',
-  },
-  {
-    id: 'gamer-bundle-pro',
-    title: 'Cadeira NXR Stealth Pro',
-    description:
-      'Equipamento ergonómico desenhado para longas horas de operação sem comprometer o conforto.',
-    iconName: 'Briefcase',
-    specs: [
-      'Ajuste 4D Braços',
-      'Pele Sintética Respirável',
-      'Base de Aço Reforçada',
-      'Almofadas Lombares',
-    ],
-    category: 'Gamer',
-  },
-];
-
-const CATEGORIES = [
-  'Todos',
-  'Memória RAM',
-  'Disco duro',
-  'SSD',
-  'Processador',
-  'Computadores',
-  'Monitores',
-  'Teclado',
-  'Mouse',
-  'Placa de vídeo',
-  'Gamer',
-];
-
-const getIcon = (name: string) => {
-  switch (name) {
-    case 'Laptop':
-      return <Laptop className="w-8 h-8" />;
-    case 'MonitorPlay':
-      return <MonitorPlay className="w-8 h-8" />;
-    case 'Router':
-      return <Router className="w-8 h-8" />;
-    case 'ShieldCheck':
-      return <ShieldCheck className="w-8 h-8" />;
-    case 'Briefcase':
-      return <Briefcase className="w-8 h-8" />;
-    case 'Cpu':
-      return <Cpu className="w-8 h-8" />;
-    case 'MousePointer2':
-      return <MousePointer2 className="w-8 h-8" />;
-    case 'HardDrive':
-      return <HardDrive className="w-8 h-8" />;
-    default:
-      return <Laptop className="w-8 h-8" />;
-  }
+const getIcon = (category: string) => {
+  const cat = category.toLowerCase();
+  if (cat.includes('computador') || cat.includes('laptop')) return <Laptop className="w-8 h-8" />;
+  if (cat.includes('monitor')) return <MonitorPlay className="w-8 h-8" />;
+  if (cat.includes('rede') || cat.includes('telecom')) return <Router className="w-8 h-8" />;
+  if (cat.includes('segurança')) return <ShieldCheck className="w-8 h-8" />;
+  if (cat.includes('software')) return <Briefcase className="w-8 h-8" />;
+  if (cat.includes('processador') || cat.includes('placa')) return <Cpu className="w-8 h-8" />;
+  if (cat.includes('mouse') || cat.includes('rato')) return <MousePointer2 className="w-8 h-8" />;
+  if (cat.includes('disco') || cat.includes('ssd') || cat.includes('armazenamento')) return <HardDrive className="w-8 h-8" />;
+  return <Box className="w-8 h-8" />;
 };
 
-interface ProductCardProps {
-  product: Product;
-  onViewDetails: (product: Product) => void;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => (
-  <div className="group bg-nxr-panel border border-nxr-border p-6 rounded-sm hover:border-nxr-primary transition-all duration-300 relative overflow-hidden flex flex-col h-full animate-in fade-in zoom-in duration-500">
-    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-      <ShoppingBag className="w-20 h-20 text-nxr-primary" />
-    </div>
-
-    <div className="relative z-10 flex-grow">
-      <div className="flex justify-between items-start mb-6">
-        <div className="w-12 h-12 bg-slate-900 rounded-sm flex items-center justify-center text-nxr-primary border border-nxr-border group-hover:border-nxr-primary/50 transition-colors">
-          {getIcon(product.iconName)}
-        </div>
-        <span className="text-[9px] font-mono uppercase tracking-widest text-nxr-primary/70 bg-nxr-primary/10 px-2 py-1 rounded-sm border border-nxr-primary/20">
-          {product.category}
-        </span>
-      </div>
-
-      <h3 className="text-lg font-bold text-white mb-2">{product.title}</h3>
-      <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2">
-        {product.description}
-      </p>
-
-      <ul className="mb-6 space-y-1.5">
-        {product.specs.slice(0, 2).map((spec, idx) => (
-          <li key={idx} className="flex items-center text-[10px] text-slate-500">
-            <Check className="w-3 h-3 text-nxr-primary mr-1.5 flex-shrink-0" />
-            {spec}
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div className="relative z-10">
-      <button
-        onClick={() => onViewDetails(product)}
-        className="w-full py-2.5 px-4 bg-nxr-dark border border-nxr-primary/20 text-nxr-primary font-bold text-[10px] uppercase tracking-widest hover:bg-nxr-primary hover:text-nxr-dark transition-all duration-300 flex items-center justify-center"
-      >
-        Especificações
-        <ArrowRight className="ml-2 w-3 h-3" />
-      </button>
-    </div>
-  </div>
-);
-
-interface ProductModalProps {
-  product: Product | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose }) => {
-  const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    if (isOpen && product) {
-      setShouldRender(true);
-      const timer = setTimeout(() => setIsVisible(true), 10);
-      return () => clearTimeout(timer);
-    } else {
-      setIsVisible(false);
-      const timer = setTimeout(() => setShouldRender(false), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen, product]);
-
-  if (!shouldRender || !product) return null;
-
-  const handleRequestQuote = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      onClose();
-      navigate('/contact', { state: { productInterest: product.title } });
-    }, 300);
-  };
-
-  return (
-    <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-    >
-      <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            e.currentTarget.click();
-          }
-        }}
-        role="button"
-        tabIndex={0}
-      />
-      <div
-        className={`relative bg-nxr-dark border border-nxr-primary w-full max-w-xl shadow-[0_0_50px_rgba(6,182,212,0.1)] transition-all duration-300 transform ${isVisible ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
-      >
-        <div className="flex justify-between items-center p-6 border-b border-nxr-border">
-          <div className="flex items-center space-x-3">
-            <div className="text-nxr-primary">{getIcon(product.iconName)}</div>
-            <h3 className="text-xl font-bold text-white">{product.title}</h3>
-          </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        <div className="p-5 sm:p-8">
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-            {product.description} Este hardware é selecionado criteriosamente pela nossa equipa de
-            engenharia para máxima compatibilidade com protocolos de segurança avançados.
-          </p>
-
-          <div className="bg-slate-900 p-4 border border-nxr-border rounded-sm mb-6">
-            <h4 className="text-[9px] sm:text-[10px] font-mono text-nxr-primary uppercase tracking-widest mb-3 flex items-center">
-              <Activity className="w-3 h-3 mr-2" /> DATA_SHEET
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {product.specs.map((spec, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center text-[10px] sm:text-xs text-slate-400 font-mono"
-                >
-                  <span className="text-nxr-primary mr-2">/</span> {spec}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={handleRequestQuote}
-              className="w-full sm:flex-1 py-3 bg-nxr-primary text-nxr-dark font-bold uppercase text-[10px] sm:text-xs tracking-widest hover:bg-white transition-colors"
-            >
-              Solicitar Cotação
-            </button>
-            <button
-              onClick={onClose}
-              className="w-full sm:px-6 py-3 border border-nxr-border text-slate-400 hover:text-white transition-colors text-[10px] sm:text-xs uppercase"
-            >
-              Voltar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Store: React.FC = () => {
+export const Store: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['products', activeCategory],
+    queryFn: () => fetchActiveProducts(activeCategory),
+  });
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedProduct(null), 350);
-  };
+  const categories = getCategoryList();
 
-  const filteredProducts = PRODUCTS.filter(product => {
-    const matchesCategory = activeCategory === 'Todos' || product.category === activeCategory;
-    const matchesSearch =
-      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+  const filteredProducts = products.filter(p => {
+    const search = searchQuery.toLowerCase();
+    return (
+      p.name.toLowerCase().includes(search) ||
+      p.description.toLowerCase().includes(search) ||
+      p.tags?.some(t => t.toLowerCase().includes(search))
+    );
   });
 
   return (
     <>
       <SEOHead page={SEO_PAGES.store} jsonLd={organizationSchema()} />
-      <div className="pt-16 sm:pt-20 pb-24">
-        <ProductModal product={selectedProduct} isOpen={isModalOpen} onClose={handleCloseModal} />
+      <div className="pt-16 sm:pt-20 pb-24 bg-slate-950 min-h-screen">
+        <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
 
-        {/* Simplified Store Header */}
-        <section className="bg-nxr-dark pt-8 pb-16 border-b border-nxr-border">
+        {/* Hero Section */}
+        <section className="bg-slate-950 pt-8 pb-12 border-b border-slate-800">
           <div className="max-w-7xl mx-auto px-4 text-center">
-            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-nxr-primary/5 border border-nxr-primary/20 rounded-full mb-6">
-              <ShoppingBag className="w-4 h-4 text-nxr-primary mr-2" />
-              <span className="text-[10px] font-mono text-nxr-primary uppercase tracking-widest">
-                Hardware_Certificado
+            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-cyan-900/20 border border-cyan-500/30 rounded-full mb-6">
+              <ShoppingBag className="w-4 h-4 text-cyan-400 mr-2" />
+              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
+                {products.length > 0
+                  ? `Produtos disponíveis: ${products.length} itens`
+                  : 'Catálogo em actualização'}
               </span>
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-              Catálogo de <span className="text-nxr-primary">Sistemas</span>
+              Loja <span className="text-cyan-400">Tecnológica</span>
             </h1>
-            <p className="text-sm text-slate-500 max-w-xl mx-auto">
-              Equipamentos de grau militar e infraestrutura de rede robusta para operações críticas.
+            <p className="text-sm text-slate-400 max-w-xl mx-auto">
+              Hardware, software e soluções tecnológicas para a sua empresa.
             </p>
           </div>
         </section>
 
-        {/* Search and Filters Navigation & Results */}
-        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center mb-16 space-y-8">
-            {/* Search Bar */}
-            <div className="relative w-full max-w-lg">
+        {/* Search and Filters */}
+        <section className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 mb-12">
+            {/* Category Pills */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 w-full lg:w-auto">
+              {categories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border ${
+                    activeCategory === category
+                      ? 'bg-cyan-950 border-cyan-400 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                      : 'bg-transparent border-slate-700 text-slate-400 hover:border-slate-500'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full lg:w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-slate-500" />
               </div>
               <input
                 type="text"
-                placeholder="Pesquisar sistemas ou componentes..."
+                placeholder="Pesquisar produto..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="block w-full pl-10 pr-4 py-3 bg-nxr-panel border border-nxr-border rounded-sm text-sm text-white focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all duration-300"
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors"
               />
-            </div>
-
-            {/* Category Filters Bar */}
-            <div className="flex flex-col items-center w-full">
-              <div className="flex flex-wrap justify-center gap-2 p-1.5 bg-nxr-panel border border-nxr-border rounded-sm w-full sm:w-auto">
-                {CATEGORIES.map(category => (
-                  <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-sm text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
-                      activeCategory === category
-                        ? 'bg-nxr-primary text-nxr-dark shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                        : 'text-slate-500 hover:text-white hover:bg-slate-800'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-4 text-[9px] sm:text-[10px] font-mono text-slate-600 uppercase tracking-widest text-center">
-                A mostrar {filteredProducts.length} de {PRODUCTS.length} sistemas encontrados
-              </div>
             </div>
           </div>
 
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredProducts.map((product, index) => (
-                <AnimateIn key={product.id} delay={Math.min(index * 80, 400)}>
-                  <ProductCard product={product} onViewDetails={handleOpenModal} />
-                </AnimateIn>
+          {/* Loading State */}
+          {isLoading && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden animate-pulse">
+                  <div className="w-full aspect-square bg-slate-800"></div>
+                  <div className="p-4 space-y-3">
+                    <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
+                    <div className="h-5 w-3/4 bg-slate-800 rounded"></div>
+                    <div className="h-3 w-full bg-slate-800 rounded"></div>
+                    <div className="h-8 w-full bg-slate-800 rounded mt-4"></div>
+                  </div>
+                </div>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-24 bg-nxr-panel/30 border border-dashed border-nxr-border rounded-sm">
-              <Filter className="w-10 h-10 text-slate-700 mx-auto mb-4" />
-              <h3 className="text-lg font-bold text-white mb-2">Nenhum equipamento encontrado</h3>
-              <p className="text-slate-500 text-sm mb-6">
-                Tente ajustar os termos de pesquisa ou o filtro de categoria.
+          )}
+
+          {/* Empty State */}
+          {!isLoading && filteredProducts.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <Box className="w-20 h-20 text-slate-600 mb-6" />
+              <h3 className="text-xl font-medium text-slate-300 mb-2">Sem produtos disponíveis</h3>
+              <p className="text-slate-500 text-sm mb-8">
+                {searchQuery
+                  ? 'Nenhum produto corresponde à pesquisa.'
+                  : activeCategory !== 'Todos'
+                    ? 'Sem produtos nesta categoria por agora.'
+                    : 'O catálogo está a ser preparado. Volte em breve.'}
               </p>
-              <button
-                onClick={() => {
-                  setActiveCategory('Todos');
-                  setSearchQuery('');
-                }}
-                className="text-nxr-primary hover:underline text-xs uppercase font-bold tracking-widest"
+              <a
+                href="https://wa.me/244923479049?text=Olá+NXRSCRIPTS!+Preciso+de+informações+sobre+produtos+disponíveis."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 text-sm font-medium hover:underline flex items-center gap-1"
               >
-                Redefinir filtros
-              </button>
+                Interessado em algo específico? Contacte-nos via WhatsApp <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          )}
+
+          {/* Product Grid */}
+          {!isLoading && filteredProducts.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product, index) => (
+                <AnimateIn key={product.id} delay={Math.min(index * 50, 300)}>
+                  <div
+                    onClick={() => setSelectedProduct(product)}
+                    className="cursor-pointer group flex flex-col h-full bg-slate-900 border border-slate-700 rounded-xl overflow-hidden hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] transition-all duration-300"
+                  >
+                    {/* Image Area */}
+                    <div className="relative w-full aspect-square bg-slate-800 flex items-center justify-center overflow-hidden">
+                      {product.cover_image ? (
+                        <img
+                          src={product.cover_image}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-slate-700 group-hover:scale-110 transition-transform duration-500">
+                          {getIcon(product.category)}
+                        </div>
+                      )}
+
+                      {/* Top Left Badge (Featured) */}
+                      {product.featured && (
+                        <span className="absolute top-3 left-3 px-2 py-1 bg-cyan-900/80 text-cyan-300 text-[10px] font-bold rounded backdrop-blur-sm">
+                          ⭐ Destaque
+                        </span>
+                      )}
+
+                      {/* Top Right Badge (Stock) */}
+                      {product.stock_status === 'out_of_stock' && (
+                        <span className="absolute top-3 right-3 px-2 py-1 bg-red-900/80 text-red-300 text-[10px] font-bold rounded backdrop-blur-sm">
+                          Esgotado
+                        </span>
+                      )}
+                      {product.stock_status === 'on_request' && (
+                        <span className="absolute top-3 right-3 px-2 py-1 bg-orange-900/80 text-orange-300 text-[10px] font-bold rounded backdrop-blur-sm">
+                          Sob Encomenda
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="flex flex-col flex-grow p-4">
+                      <span className="text-[10px] font-mono text-cyan-400/70 uppercase tracking-wide mb-1 block">
+                        {product.category}
+                      </span>
+                      <h3 className="text-white font-semibold text-sm leading-snug line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-slate-400 text-xs line-clamp-2 mt-2 flex-grow">
+                        {product.description}
+                      </p>
+
+                      {/* Footer */}
+                      <div className="flex justify-between items-center mt-4 pt-3 border-t border-slate-800">
+                        <div className="text-cyan-400 font-bold font-mono text-sm">
+                          {product.price ? formatPrice(product) : 'Consulte-nos'}
+                        </div>
+                        <button
+                          onClick={e => {
+                            e.stopPropagation();
+                            window.open(buildWhatsAppLink(product), '_blank');
+                          }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600/20 border border-green-600/30 text-green-400 text-xs font-medium rounded-lg hover:bg-green-600/30 transition-colors"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                          </svg>
+                          WhatsApp
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </AnimateIn>
+              ))}
             </div>
           )}
         </section>
 
         {/* Bottom CTA */}
-        <section className="max-w-7xl mx-auto px-4">
-          <div className="p-8 md:p-12 bg-nxr-panel border border-nxr-border flex flex-col md:flex-row items-center justify-between gap-8">
+        <section className="max-w-7xl mx-auto px-4 mt-8">
+          <div className="p-8 md:p-12 bg-slate-900 border border-slate-700 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-xl">
               <h2 className="text-2xl font-bold text-white mb-3">Configurações Personalizadas?</h2>
               <p className="text-sm text-slate-400">
@@ -479,7 +256,7 @@ const Store: React.FC = () => {
             </div>
             <Link
               to="/contact"
-              className="whitespace-nowrap px-8 py-4 bg-white text-nxr-dark font-bold text-xs uppercase tracking-widest hover:bg-nxr-primary transition-colors flex items-center"
+              className="whitespace-nowrap px-8 py-4 bg-cyan-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-cyan-500 rounded-xl transition-colors flex items-center"
             >
               Falar com Engenharia
               <ArrowRight className="ml-2 w-4 h-4" />
