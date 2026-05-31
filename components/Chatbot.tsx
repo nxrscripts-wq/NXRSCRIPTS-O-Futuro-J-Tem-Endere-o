@@ -119,17 +119,15 @@ const Chatbot: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const history = messages
-        .slice(-8)
-        .map(m => ({
-          role: m.role === 'user' ? ('user' as const) : ('model' as const),
-          text: m.text,
-        }));
+      const history = messages.slice(-8).map(m => ({
+        role: m.role === 'user' ? ('user' as const) : ('model' as const),
+        text: m.text,
+      }));
       const reply = await sendChatMessage(msg, history);
       addAssistantMessage(reply);
     } catch {
       addAssistantMessage(
-        'Desculpa, ocorreu um erro de ligação. Podes contactar-nos directamente:\n📧 nxrscripts@gmail.com\n📱 +244 923 479 049'
+        'Desculpa não estamos disponiveis. Podes contactar-nos directamente:\n📧 nxrscripts@gmail.com\n📱 +244 923 479 049'
       );
     } finally {
       setIsTyping(false);
