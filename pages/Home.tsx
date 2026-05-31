@@ -1,12 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Shield,
   ArrowRight,
-  Activity,
-  Code2,
-  CheckCircle,
-  FileText,
   Quote,
   Users,
   Settings,

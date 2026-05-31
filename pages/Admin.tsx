@@ -21,22 +21,20 @@ import { useLeadsRealtime } from '../hooks/useLeadsRealtime';
 import toast from 'react-hot-toast';
 
 const TABS = ['Leads', 'Produtos', 'Requisições'] as const;
-type AdminTab = typeof TABS[number];
+type AdminTab = (typeof TABS)[number];
 
 const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AdminTab>('Leads');
   const [viewMode, setViewMode] = useState<'dashboard' | 'table' | 'blog'>('dashboard');
   const [filter, setFilter] = useState<'ALL' | LeadStatus>('ALL');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  
+
   const queryClient = useQueryClient();
   const { isConnected, isNewLead } = useLeadsRealtime();
 
   const {
     data: leads = [],
     isLoading,
-    isError,
-    error,
     refetch,
   } = useQuery({
     queryKey: ['leads'],
@@ -160,12 +158,18 @@ const Admin: React.FC = () => {
 
   const getStatusColor = (status: LeadStatus) => {
     switch (status) {
-      case 'NEW': return 'text-nxr-primary bg-nxr-primary/10 border-nxr-primary/30';
-      case 'CONTACTED': return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30';
-      case 'QUALIFIED': return 'text-green-400 bg-green-400/10 border-green-400/30';
-      case 'CLOSED': return 'text-slate-400 bg-slate-400/10 border-slate-400/30';
-      case 'ARCHIVED': return 'text-slate-600 bg-slate-900 border-slate-700';
-      default: return 'text-white';
+      case 'NEW':
+        return 'text-nxr-primary bg-nxr-primary/10 border-nxr-primary/30';
+      case 'CONTACTED':
+        return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30';
+      case 'QUALIFIED':
+        return 'text-green-400 bg-green-400/10 border-green-400/30';
+      case 'CLOSED':
+        return 'text-slate-400 bg-slate-400/10 border-slate-400/30';
+      case 'ARCHIVED':
+        return 'text-slate-600 bg-slate-900 border-slate-700';
+      default:
+        return 'text-white';
     }
   };
 
@@ -179,9 +183,7 @@ const Admin: React.FC = () => {
               <LayoutDashboard className="mr-3 text-nxr-primary" />
               Centro de Comando
             </h1>
-            <p className="text-slate-500 text-sm font-mono mt-1">
-              SISTEMA INTEGRADO DE GESTÃO NXR
-            </p>
+            <p className="text-slate-500 text-sm font-mono mt-1">SISTEMA INTEGRADO DE GESTÃO NXR</p>
             {activeTab === 'Leads' && (
               <div className="flex items-center gap-2 mt-2">
                 <span className="relative flex h-2.5 w-2.5">
@@ -216,8 +218,10 @@ const Admin: React.FC = () => {
             <button
               onClick={() => {
                 if (activeTab === 'Leads') refetch();
-                if (activeTab === 'Produtos') queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-                if (activeTab === 'Requisições') queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+                if (activeTab === 'Produtos')
+                  queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+                if (activeTab === 'Requisições')
+                  queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
               }}
               className="p-2 bg-nxr-panel border border-nxr-border rounded hover:text-nxr-primary transition-colors text-slate-300"
               title="Atualizar dados"
@@ -255,7 +259,7 @@ const Admin: React.FC = () => {
         </div>
 
         {/* CONTEÚDO DAS TABS */}
-        
+
         {/* --- ABA LEADS --- */}
         {activeTab === 'Leads' && (
           <>
@@ -264,7 +268,9 @@ const Admin: React.FC = () => {
                 <button
                   onClick={() => setViewMode('dashboard')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    viewMode === 'dashboard' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                    viewMode === 'dashboard'
+                      ? 'bg-slate-800 text-cyan-400'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <LayoutDashboard className="w-4 h-4" /> Dashboard
@@ -272,7 +278,9 @@ const Admin: React.FC = () => {
                 <button
                   onClick={() => setViewMode('table')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    viewMode === 'table' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                    viewMode === 'table'
+                      ? 'bg-slate-800 text-cyan-400'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <List className="w-4 h-4" /> Tabela de Leads
@@ -282,7 +290,9 @@ const Admin: React.FC = () => {
                 <button
                   onClick={() => setViewMode('blog')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    viewMode === 'blog' ? 'bg-slate-800 text-cyan-400' : 'text-slate-400 hover:text-white'
+                    viewMode === 'blog'
+                      ? 'bg-slate-800 text-cyan-400'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <FileText className="w-4 h-4" /> Gestão de Blog
@@ -298,19 +308,27 @@ const Admin: React.FC = () => {
               <>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   <div className="bg-nxr-panel border border-nxr-border p-4 rounded-sm">
-                    <div className="text-slate-400 text-xs font-mono uppercase">Total de Inquéritos</div>
+                    <div className="text-slate-400 text-xs font-mono uppercase">
+                      Total de Inquéritos
+                    </div>
                     <div className="text-3xl font-bold text-white mt-2">{stats.total}</div>
                   </div>
                   <div className="bg-nxr-panel border-l-4 border-l-nxr-primary border-y border-r border-r-nxr-border border-y-nxr-border p-4 rounded-sm">
-                    <div className="text-nxr-primary text-xs font-mono uppercase">Novos / Ação Necessária</div>
+                    <div className="text-nxr-primary text-xs font-mono uppercase">
+                      Novos / Ação Necessária
+                    </div>
                     <div className="text-3xl font-bold text-white mt-2">{stats.new}</div>
                   </div>
                   <div className="bg-nxr-panel border border-nxr-border p-4 rounded-sm">
-                    <div className="text-green-400 text-xs font-mono uppercase">Alvos Qualificados</div>
+                    <div className="text-green-400 text-xs font-mono uppercase">
+                      Alvos Qualificados
+                    </div>
                     <div className="text-3xl font-bold text-white mt-2">{stats.qualified}</div>
                   </div>
                   <div className="bg-nxr-panel border border-nxr-border p-4 rounded-sm">
-                    <div className="text-slate-500 text-xs font-mono uppercase">Fechado / Arquivado</div>
+                    <div className="text-slate-500 text-xs font-mono uppercase">
+                      Fechado / Arquivado
+                    </div>
                     <div className="text-3xl font-bold text-white mt-2">{stats.closed}</div>
                   </div>
                 </div>
@@ -346,21 +364,33 @@ const Admin: React.FC = () => {
                       </thead>
                       <tbody className="divide-y divide-nxr-border">
                         {isLoading ? (
-                          <tr><td colSpan={6} className="px-6 py-12 text-center">A carregar leads...</td></tr>
+                          <tr>
+                            <td colSpan={6} className="px-6 py-12 text-center">
+                              A carregar leads...
+                            </td>
+                          </tr>
                         ) : filteredLeads.length === 0 ? (
-                          <tr><td colSpan={6} className="px-6 py-12 text-center text-slate-500">Nenhum lead encontrado</td></tr>
+                          <tr>
+                            <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                              Nenhum lead encontrado
+                            </td>
+                          </tr>
                         ) : (
                           filteredLeads.map(lead => (
                             <tr
                               key={lead.id}
                               onClick={() => setSelectedLead(lead)}
                               className={`cursor-pointer hover:bg-slate-800/50 transition-all duration-500 ${
-                                isNewLead(lead.id) ? 'border-l-2 border-l-cyan-400 bg-cyan-950/20' : ''
+                                isNewLead(lead.id)
+                                  ? 'border-l-2 border-l-cyan-400 bg-cyan-950/20'
+                                  : ''
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-white font-mono text-xs">{lead.id}</div>
-                                <div className="text-slate-600 text-xs mt-1">{new Date(lead.createdAt).toLocaleDateString()}</div>
+                                <div className="text-slate-600 text-xs mt-1">
+                                  {new Date(lead.createdAt).toLocaleDateString()}
+                                </div>
                               </td>
                               <td className="px-6 py-4">
                                 <div className="font-bold text-white">{lead.name}</div>
@@ -374,7 +404,9 @@ const Admin: React.FC = () => {
                               </td>
                               <td className="px-6 py-4">
                                 <div className="relative inline-block text-left group">
-                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(lead.status)}`}>
+                                  <span
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(lead.status)}`}
+                                  >
                                     {lead.status}
                                     <ChevronDown className="w-3 h-3 ml-1" />
                                   </span>
@@ -414,7 +446,7 @@ const Admin: React.FC = () => {
                 </div>
               </>
             )}
-            
+
             {/* Modal de Leads */}
             {selectedLead && (
               <LeadModal
@@ -433,7 +465,6 @@ const Admin: React.FC = () => {
 
         {/* --- ABA REQUISIÇÕES --- */}
         {activeTab === 'Requisições' && <AdminOrders />}
-
       </div>
     </div>
   );

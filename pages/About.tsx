@@ -10,7 +10,6 @@ import {
   Radio,
   ShieldCheck,
   Lightbulb,
-  UserPlus,
   Linkedin,
   Facebook,
   ArrowRight,

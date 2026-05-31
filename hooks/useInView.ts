@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
-export function useInView(options = {}) {
-  const { threshold = 0.1, rootMargin = '0px 0px -60px 0px', once = true } = options as any;
+export function useInView(options: IntersectionObserverInit & { once?: boolean } = {}) {
+  const { threshold = 0.1, rootMargin = '0px 0px -60px 0px', once = true } = options;
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
 

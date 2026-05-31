@@ -37,7 +37,8 @@ const getIcon = (category: string) => {
   if (cat.includes('software')) return <Briefcase className="w-8 h-8" />;
   if (cat.includes('processador') || cat.includes('placa')) return <Cpu className="w-8 h-8" />;
   if (cat.includes('mouse') || cat.includes('rato')) return <MousePointer2 className="w-8 h-8" />;
-  if (cat.includes('disco') || cat.includes('ssd') || cat.includes('armazenamento')) return <HardDrive className="w-8 h-8" />;
+  if (cat.includes('disco') || cat.includes('ssd') || cat.includes('armazenamento'))
+    return <HardDrive className="w-8 h-8" />;
   return <Box className="w-8 h-8" />;
 };
 
@@ -127,13 +128,16 @@ export const Store: React.FC = () => {
           {isLoading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden animate-pulse">
-                  <div className="w-full aspect-square bg-slate-800"></div>
+                <div
+                  key={i}
+                  className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden animate-pulse"
+                >
+                  <div className="w-full aspect-square bg-slate-800" />
                   <div className="p-4 space-y-3">
-                    <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
-                    <div className="h-5 w-3/4 bg-slate-800 rounded"></div>
-                    <div className="h-3 w-full bg-slate-800 rounded"></div>
-                    <div className="h-8 w-full bg-slate-800 rounded mt-4"></div>
+                    <div className="h-3 w-1/3 bg-slate-800 rounded" />
+                    <div className="h-5 w-3/4 bg-slate-800 rounded" />
+                    <div className="h-3 w-full bg-slate-800 rounded" />
+                    <div className="h-8 w-full bg-slate-800 rounded mt-4" />
                   </div>
                 </div>
               ))}
@@ -158,7 +162,8 @@ export const Store: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-cyan-400 hover:text-cyan-300 text-sm font-medium hover:underline flex items-center gap-1"
               >
-                Interessado em algo específico? Contacte-nos via WhatsApp <ArrowRight className="w-4 h-4" />
+                Interessado em algo específico? Contacte-nos via WhatsApp{' '}
+                <ArrowRight className="w-4 h-4" />
               </a>
             </div>
           )}
@@ -169,6 +174,11 @@ export const Store: React.FC = () => {
               {filteredProducts.map((product, index) => (
                 <AnimateIn key={product.id} delay={Math.min(index * 50, 300)}>
                   <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' || e.key === ' ') setSelectedProduct(product);
+                    }}
                     onClick={() => setSelectedProduct(product)}
                     className="cursor-pointer group flex flex-col h-full bg-slate-900 border border-slate-700 rounded-xl overflow-hidden hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] transition-all duration-300"
                   >

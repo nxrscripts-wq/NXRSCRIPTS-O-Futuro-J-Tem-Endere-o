@@ -48,7 +48,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
       aria-label={product.name}
     >
       {/* Overlay click to close */}
-      <div className="absolute inset-0" onClick={onClose} />
+      <div
+        role="button"
+        tabIndex={0}
+        className="absolute inset-0"
+        onClick={onClose}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') onClose();
+        }}
+        aria-label="Fechar"
+      />
 
       <div className="relative w-full max-w-4xl max-h-[92vh] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl shadow-black/60 overflow-y-auto z-10 flex flex-col md:flex-row">
         <button
@@ -63,18 +72,14 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
         <div className="w-full md:w-1/2 p-6 bg-slate-950/50 flex flex-col">
           <div className="w-full aspect-square md:aspect-auto md:h-80 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden relative">
             {activeImage ? (
-              <img
-                src={activeImage}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+              <img src={activeImage} alt={product.name} className="w-full h-full object-cover" />
             ) : (
               <div className="flex flex-col items-center justify-center text-slate-600">
                 <Box className="w-16 h-16 mb-2 opacity-50" />
                 <span className="text-sm font-mono">Imagem não disponível</span>
               </div>
             )}
-            
+
             {/* Badges on main image */}
             <div className="absolute top-3 left-3 flex flex-col gap-2">
               {product.featured && (
@@ -103,7 +108,11 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
                   onClick={() => setActiveImage(img)}
                   className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${activeImage === img ? 'border-cyan-400' : 'border-slate-800 hover:border-slate-600 opacity-70 hover:opacity-100'}`}
                 >
-                  <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                  <img
+                    src={img}
+                    alt={`Thumbnail ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -119,28 +128,35 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-4 leading-tight">{product.name}</h2>
-          
+
           <div className="mb-6">
             <div className="text-3xl font-mono text-cyan-400 font-bold tracking-tight">
               {formatPrice(product)}
             </div>
             {!product.price && (
-              <p className="text-xs text-slate-400 mt-1">Contacte-nos para obter proposta personalizada</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Contacte-nos para obter proposta personalizada
+              </p>
             )}
           </div>
 
-          <p className="text-slate-300 text-sm leading-relaxed mb-6">
-            {product.description}
-          </p>
+          <p className="text-slate-300 text-sm leading-relaxed mb-6">{product.description}</p>
 
           {product.specs && Object.keys(product.specs).length > 0 && (
             <div className="bg-slate-800/50 rounded-lg p-4 mb-6 border border-slate-700/50">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Especificações Técnicas</h4>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">
+                Especificações Técnicas
+              </h4>
               <div className="space-y-2">
                 {Object.entries(product.specs).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-start text-sm border-b border-slate-700/50 pb-2 last:border-0 last:pb-0">
+                  <div
+                    key={key}
+                    className="flex justify-between items-start text-sm border-b border-slate-700/50 pb-2 last:border-0 last:pb-0"
+                  >
                     <span className="text-slate-400 pr-4">{key}</span>
-                    <span className="text-white font-mono text-right break-words max-w-[60%]">{value}</span>
+                    <span className="text-white font-mono text-right break-words max-w-[60%]">
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -150,7 +166,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
           {product.tags && product.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8">
               {product.tags.map(tag => (
-                <span key={tag} className="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-full">
+                <span
+                  key={tag}
+                  className="text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-full"
+                >
                   #{tag}
                 </span>
               ))}
@@ -168,7 +187,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
               </svg>
               Encomendar via WhatsApp
             </button>
-            
+
             <button
               onClick={() => setShowForm(!showForm)}
               className="w-full py-3.5 border border-cyan-500/30 text-cyan-300 font-medium rounded-xl hover:bg-cyan-950/40 transition-colors"
@@ -178,7 +197,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
           </div>
 
           {/* REQUISIÇÃO FORM (EXPANDÍVEL) */}
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showForm ? 'max-h-[800px] opacity-100 mt-6 pt-6 border-t border-slate-800' : 'max-h-0 opacity-0'}`}>
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${showForm ? 'max-h-[800px] opacity-100 mt-6 pt-6 border-t border-slate-800' : 'max-h-0 opacity-0'}`}
+          >
             <OrderForm product={product} onSuccess={() => {}} />
           </div>
         </div>

@@ -35,7 +35,7 @@ export const AdminBlog: React.FC = () => {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: Partial<BlogPost>) => createPost(data as any),
+    mutationFn: (data: Partial<BlogPost>) => createPost(data as unknown as BlogPost),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-blog'] });
       toast.success('Artigo criado com sucesso');

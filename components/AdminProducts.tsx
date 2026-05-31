@@ -134,7 +134,7 @@ export const AdminProducts: React.FC = () => {
         }
         await updateProduct(productId, updates);
       }
-    } catch (err) {
+    } catch {
       toast.error('Erro ao fazer upload de imagens');
     } finally {
       setUploadingImages(false);
@@ -171,7 +171,7 @@ export const AdminProducts: React.FC = () => {
           images: newImages,
           cover_image: formData.cover_image || urls[0],
         });
-      } catch (err) {
+      } catch {
         toast.error('Erro ao fazer upload');
       } finally {
         setUploadingImages(false);
@@ -282,7 +282,9 @@ export const AdminProducts: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-400 mb-1">Categoria *</label>
+                  <label className="block text-xs font-medium text-slate-400 mb-1">
+                    Categoria *
+                  </label>
                   <select
                     required
                     value={formData.category || ''}
@@ -337,7 +339,9 @@ export const AdminProducts: React.FC = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-400 mb-1">Ordem de Exibição</label>
+                <label className="block text-xs font-medium text-slate-400 mb-1">
+                  Ordem de Exibição
+                </label>
                 <input
                   type="number"
                   value={formData.sort_order || 0}
@@ -369,7 +373,9 @@ export const AdminProducts: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-400 mb-1">Especificações Técnicas</label>
+                <label className="block text-xs font-medium text-slate-400 mb-1">
+                  Especificações Técnicas
+                </label>
                 <textarea
                   rows={3}
                   placeholder="Formato Chave: Valor (uma por linha)"
@@ -413,9 +419,11 @@ export const AdminProducts: React.FC = () => {
                 disabled={uploadingImages}
               />
               <ImageIcon className="w-10 h-10 text-slate-500 mx-auto mb-2" />
-              <p className="text-slate-300 font-medium">Arrasta imagens aqui ou clica para seleccionar</p>
+              <p className="text-slate-300 font-medium">
+                Arrasta imagens aqui ou clica para seleccionar
+              </p>
               <p className="text-slate-500 text-xs mt-1">JPG, PNG, WebP · máx 5MB por imagem</p>
-              
+
               {uploadingImages && (
                 <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center rounded-xl z-10">
                   <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
@@ -427,10 +435,15 @@ export const AdminProducts: React.FC = () => {
             {formData.images && formData.images.length > 0 && (
               <div className="flex flex-wrap gap-3 mt-4">
                 {formData.images.map((url, idx) => (
-                  <div key={idx} className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 ${formData.cover_image === url ? 'border-cyan-400' : 'border-slate-700'}`}>
+                  <div
+                    key={idx}
+                    className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 ${formData.cover_image === url ? 'border-cyan-400' : 'border-slate-700'}`}
+                  >
                     <img src={url} alt="Prod" className="w-full h-full object-cover" />
                     {formData.cover_image === url && (
-                      <span className="absolute bottom-0 inset-x-0 bg-cyan-500/80 text-[8px] text-white text-center font-bold uppercase py-0.5">Principal</span>
+                      <span className="absolute bottom-0 inset-x-0 bg-cyan-500/80 text-[8px] text-white text-center font-bold uppercase py-0.5">
+                        Principal
+                      </span>
                     )}
                     <button
                       type="button"
@@ -442,7 +455,7 @@ export const AdminProducts: React.FC = () => {
                     {formData.cover_image !== url && (
                       <button
                         type="button"
-                        onClick={() => setFormData({...formData, cover_image: url})}
+                        onClick={() => setFormData({ ...formData, cover_image: url })}
                         className="absolute bottom-1 left-1 bg-slate-900/80 hover:bg-cyan-500 text-white rounded p-0.5 text-[8px] uppercase backdrop-blur-sm transition-colors"
                       >
                         Tornar Principal
@@ -458,8 +471,15 @@ export const AdminProducts: React.FC = () => {
               <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-slate-800">
                 <p className="w-full text-xs text-slate-500 font-medium">Por enviar:</p>
                 {pendingImages.map((file, idx) => (
-                  <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-yellow-500/50 opacity-80">
-                    <img src={URL.createObjectURL(file)} alt="Pending" className="w-full h-full object-cover" />
+                  <div
+                    key={idx}
+                    className="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-yellow-500/50 opacity-80"
+                  >
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt="Pending"
+                      className="w-full h-full object-cover"
+                    />
                     <button
                       type="button"
                       onClick={() => removePendingImage(idx)}
@@ -486,7 +506,7 @@ export const AdminProducts: React.FC = () => {
               disabled={createMutation.isPending || updateMutation.isPending || uploadingImages}
               className="px-6 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors flex items-center"
             >
-              {(createMutation.isPending || updateMutation.isPending) ? (
+              {createMutation.isPending || updateMutation.isPending ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               ) : null}
               Guardar Produto
@@ -513,8 +533,7 @@ export const AdminProducts: React.FC = () => {
               {isLoading ? (
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
-                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                    A carregar produtos...
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />A carregar produtos...
                   </td>
                 </tr>
               ) : products.length === 0 ? (
@@ -530,12 +549,19 @@ export const AdminProducts: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden border border-slate-700">
                           {product.cover_image ? (
-                            <img src={product.cover_image} alt={product.name} className="w-full h-full object-cover" />
+                            <img
+                              src={product.cover_image}
+                              alt={product.name}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <ImageIcon className="w-4 h-4 text-slate-600" />
                           )}
                         </div>
-                        <div className="font-medium text-white line-clamp-1 max-w-[200px]" title={product.name}>
+                        <div
+                          className="font-medium text-white line-clamp-1 max-w-[200px]"
+                          title={product.name}
+                        >
                           {product.name}
                         </div>
                       </div>
@@ -546,16 +572,25 @@ export const AdminProducts: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-3 font-mono text-xs">
-                      {product.price ? `${product.currency === 'USD' ? '$' : 'Kz '}${product.price.toLocaleString('pt-AO')}` : 'Consulte-nos'}
+                      {product.price
+                        ? `${product.currency === 'USD' ? '$' : 'Kz '}${product.price.toLocaleString('pt-AO')}`
+                        : 'Consulte-nos'}
                     </td>
                     <td className="px-6 py-3 text-center">
-                      <span className={`inline-block px-2 py-1 rounded-full text-[10px] font-bold ${
-                        product.stock_status === 'available' ? 'bg-green-900/30 text-green-400' :
-                        product.stock_status === 'out_of_stock' ? 'bg-red-900/30 text-red-400' :
-                        'bg-orange-900/30 text-orange-400'
-                      }`}>
-                        {product.stock_status === 'available' ? 'Disponível' :
-                         product.stock_status === 'out_of_stock' ? 'Esgotado' : 'Sob Enc.'}
+                      <span
+                        className={`inline-block px-2 py-1 rounded-full text-[10px] font-bold ${
+                          product.stock_status === 'available'
+                            ? 'bg-green-900/30 text-green-400'
+                            : product.stock_status === 'out_of_stock'
+                              ? 'bg-red-900/30 text-red-400'
+                              : 'bg-orange-900/30 text-orange-400'
+                        }`}
+                      >
+                        {product.stock_status === 'available'
+                          ? 'Disponível'
+                          : product.stock_status === 'out_of_stock'
+                            ? 'Esgotado'
+                            : 'Sob Enc.'}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-center">
@@ -564,14 +599,24 @@ export const AdminProducts: React.FC = () => {
                           type="checkbox"
                           className="sr-only peer"
                           checked={product.active}
-                          onChange={(e) => toggleActiveMutation.mutate({ id: product.id, active: e.target.checked })}
+                          onChange={e =>
+                            toggleActiveMutation.mutate({
+                              id: product.id,
+                              active: e.target.checked,
+                            })
+                          }
                         />
-                        <div className="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500"></div>
+                        <div className="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500" />
                       </label>
                     </td>
                     <td className="px-6 py-3 text-center">
                       <button
-                        onClick={() => toggleFeaturedMutation.mutate({ id: product.id, featured: !product.featured })}
+                        onClick={() =>
+                          toggleFeaturedMutation.mutate({
+                            id: product.id,
+                            featured: !product.featured,
+                          })
+                        }
                         className={`p-1.5 rounded-full transition-colors ${product.featured ? 'text-yellow-400 bg-yellow-400/10' : 'text-slate-600 hover:text-yellow-400 hover:bg-slate-800'}`}
                         title="Destaque"
                       >

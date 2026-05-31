@@ -34,7 +34,7 @@ export const Chatbot: React.FC = () => {
           setMessages(parsed);
           setHasUnread(false);
         }
-      } catch (e) {
+      } catch {
         setMessages([INITIAL_MESSAGE]);
       }
     } else {

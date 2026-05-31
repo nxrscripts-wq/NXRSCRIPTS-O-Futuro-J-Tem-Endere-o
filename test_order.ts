@@ -6,8 +6,8 @@ const key = process.env.VITE_SUPABASE_KEY || 'sb_publishable_LEbWJNUGkn3nB4hh3q3
 const supabase = createClient(url, key);
 
 async function testOrder() {
-  console.log('Sending test order...');
-  
+  console.warn('Sending test order...');
+
   const { data, error } = await supabase.from('orders').insert({
     customer_name: 'Antigravity Test',
     customer_email: 'nxrscripts@gmail.com', // Using your email to ensure you get it
@@ -17,14 +17,14 @@ async function testOrder() {
     quantity: 1,
     source: 'form',
     message: 'Isto é uma compra de teste para verificar a integração do Webhook com a Resend API.',
-    status: 'new'
+    status: 'new',
   });
 
   if (error) {
     console.error('Error inserting order:', error);
   } else {
-    console.log('Order inserted successfully!', data);
-    console.log('Webhook should have triggered the Edge Function.');
+    console.warn('Order inserted successfully!', data);
+    console.warn('Webhook should have triggered the Edge Function.');
   }
 }
 
