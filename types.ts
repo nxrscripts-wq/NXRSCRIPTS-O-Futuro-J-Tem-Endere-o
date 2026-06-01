@@ -100,3 +100,16 @@ export interface Order {
 
 export type NewOrder = Omit<Order, 'id' | 'created_at' | 'updated_at' | 'status' | 'notes'>;
 
+// ---- COVERAGE ----
+
+export type CoverageStatus = 'active' | 'partial' | 'planned' | 'none';
+
+export interface Province {
+  id: string;
+  province_id: string;
+  province_name: string;
+  status: CoverageStatus;
+  services: string[];
+  note: string | null;
+  updated_at: string;
+}

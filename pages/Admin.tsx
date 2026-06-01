@@ -7,6 +7,7 @@ import { AdminCharts } from '../components/AdminCharts';
 import { AdminBlog } from '../components/AdminBlog';
 import { AdminProducts } from '../components/AdminProducts';
 import { AdminOrders } from '../components/AdminOrders';
+import { AdminCoverage } from '../components/AdminCoverage';
 import {
   Trash2,
   ChevronDown,
@@ -20,7 +21,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLeadsRealtime } from '../hooks/useLeadsRealtime';
 import toast from 'react-hot-toast';
 
-const TABS = ['Leads', 'Produtos', 'Requisições'] as const;
+const TABS = ['Leads', 'Produtos', 'Requisições', 'Cobertura'] as const;
 type AdminTab = (typeof TABS)[number];
 
 const Admin: React.FC = () => {
@@ -465,6 +466,9 @@ const Admin: React.FC = () => {
 
         {/* --- ABA REQUISIÇÕES --- */}
         {activeTab === 'Requisições' && <AdminOrders />}
+
+        {/* --- ABA COBERTURA --- */}
+        {activeTab === 'Cobertura' && <AdminCoverage />}
       </div>
     </div>
   );

@@ -39,6 +39,7 @@ export const NAV_ITEMS: NavigationItem[] = [
   { label: 'Pedir Orçamento', path: '/quote' },
   { label: 'Loja', path: '/store' },
   { label: 'Tecnologias', path: '/technologies' },
+  { label: 'Cobertura', path: '/coverage' },
   { label: 'Blog', path: '/blog' },
   { label: 'Contacto', path: '/contact' },
 ];

@@ -17,6 +17,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 const Quote = React.lazy(() => import('./pages/Quote'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
+const Coverage = React.lazy(() => import('./pages/Coverage'));
 import { supabase } from './lib/supabase';
 
 // ScrollToTop component to ensure navigation resets scroll
@@ -145,6 +146,14 @@ function App() {
               element={
                 <ErrorBoundary key="contact" routeName="Contacto">
                   <Contact />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/coverage"
+              element={
+                <ErrorBoundary key="coverage" routeName="Cobertura">
+                  <Coverage />
                 </ErrorBoundary>
               }
             />

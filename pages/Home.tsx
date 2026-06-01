@@ -201,6 +201,56 @@ const TrustSection: React.FC = () => {
   );
 };
 
+const ExpansionSection: React.FC = () => {
+  return (
+    <section className="py-16 bg-nxr-dark border-t border-nxr-border">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-slate-900 border border-slate-800 rounded-2xl p-8 lg:p-12">
+          <div className="md:w-1/2 flex justify-center">
+            {/* Mini simplified map representation */}
+            <div className="relative w-48 h-48 opacity-80">
+              <svg
+                viewBox="0 0 100 100"
+                className="w-full h-full text-nxr-primary"
+                fill="currentColor"
+              >
+                <path
+                  d="M45,20 C50,15 60,18 65,25 C70,30 80,35 85,45 C90,55 85,65 75,70 C65,75 55,85 45,85 C35,85 25,75 20,65 C15,55 10,45 15,35 C20,25 35,25 45,20 Z"
+                  opacity="0.1"
+                />
+                <circle cx="35" cy="45" r="4" className="animate-pulse" />
+                <circle cx="55" cy="35" r="2" opacity="0.5" />
+                <circle cx="65" cy="60" r="2" opacity="0.5" />
+                <circle cx="45" cy="70" r="2" opacity="0.5" />
+                <path
+                  d="M35,45 L55,35 M35,45 L65,60 M35,45 L45,70"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  strokeDasharray="1 2"
+                  opacity="0.3"
+                />
+              </svg>
+            </div>
+          </div>
+          <div className="md:w-1/2 text-center md:text-left">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Onde Estamos</h3>
+            <p className="text-slate-400 mb-6 leading-relaxed">
+              Baseados em Luanda · Servindo Angola · Expandindo para a região da SADC. A nossa
+              infraestrutura cresce para garantir suporte de proximidade.
+            </p>
+            <Link
+              to="/coverage"
+              className="inline-flex items-center text-nxr-primary font-bold hover:text-white transition-colors"
+            >
+              Ver mapa de cobertura <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const CaseStudyCard: React.FC<{
   title: string;
   sector: string;
@@ -420,6 +470,7 @@ const Home: React.FC = () => {
       <Hero />
       <Highlights />
       <TrustSection />
+      <ExpansionSection />
       <CaseStudies />
       <Testimonials />
       <FinalCTA />
