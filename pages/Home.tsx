@@ -241,12 +241,6 @@ const ExpansionSection: React.FC = () => {
               Baseados em Luanda · Servindo Angola · Expandindo para a região da SADC. A nossa
               infraestrutura cresce para garantir suporte de proximidade.
             </p>
-            <Link
-              to="/coverage"
-              className="inline-flex items-center text-nxr-primary font-bold hover:text-white transition-colors"
-            >
-              Ver mapa de cobertura <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
           </div>
         </div>
       </div>
