@@ -237,7 +237,7 @@ const Contact: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-nxr-dark border border-nxr-border text-white px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
+                      className="w-full bg-nxr-dark border border-nxr-border text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
                     />
                   </div>
                   <div>
@@ -254,7 +254,7 @@ const Contact: React.FC = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full bg-nxr-dark border border-nxr-border text-white px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
+                      className="w-full bg-nxr-dark border border-nxr-border text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
                     />
                   </div>
                   <div>
@@ -270,7 +270,7 @@ const Contact: React.FC = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full bg-nxr-dark border border-nxr-border text-white px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
+                      className="w-full bg-nxr-dark border border-nxr-border text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
                     />
                   </div>
                   <div>
@@ -286,7 +286,7 @@ const Contact: React.FC = () => {
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full bg-nxr-dark border border-nxr-border text-white px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
+                      className="w-full bg-nxr-dark border border-nxr-border text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
                       placeholder="Ex: Consultoria Geral"
                     />
                   </div>
@@ -304,7 +304,7 @@ const Contact: React.FC = () => {
                       required
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full bg-nxr-dark border border-nxr-border text-white px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
+                      className="w-full bg-nxr-dark border border-nxr-border text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-nxr-primary focus:ring-1 focus:ring-nxr-primary transition-all"
                     />
                   </div>
                   <div>

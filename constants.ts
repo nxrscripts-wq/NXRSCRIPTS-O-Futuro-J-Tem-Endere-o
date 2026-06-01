@@ -4,7 +4,7 @@ export const COMPANY_INFO = {
   name: 'NXRSCRIPTS',
   tagline: 'O Futuro Já Tem Endereço',
   founded: 2026,
-  domain: 'https://nxrscripts.co.ao',
+  domain: 'https://www.nxrscripts.com',
   address: {
     street: 'Rua 11 de Novembro',
     district: 'Capalanga',
@@ -17,11 +17,11 @@ export const COMPANY_INFO = {
     phoneLink: 'tel:+244923479049',
     whatsapp: '+244 923 479 049',
     whatsappLink: 'https://wa.me/244923479049',
-    email: 'geral@nxrscripts.co.ao',
-    emailLink: 'mailto:geral@nxrscripts.co.ao',
+    email: 'nxrscripts@gmail.com',
+    emailLink: 'mailto:nxrscripts@gmail.com',
   },
   social: {
-    facebook: 'https://www.facebook.com/share/1EPagNsqv3/',
+    facebook: 'https://www.facebook.com/profile.php?id=61577761835754',
     instagram: 'https://www.instagram.com/nxrscripts?igsh=eGM3bXJ6MTN1c3l0',
     linkedin: null,
     twitter: null,

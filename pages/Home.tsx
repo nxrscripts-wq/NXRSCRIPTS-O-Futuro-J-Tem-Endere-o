@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
       {/* Radiant Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-nxr-primary/10 rounded-full blur-[120px] z-0 pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-24 pb-20 sm:pt-32 sm:pb-32 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-16 pb-16 sm:pt-32 sm:pb-32 text-center">
         <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-nxr-primary/30 bg-nxr-primary/5 backdrop-blur-sm mt-4 md:mt-0">
           <span className="text-nxr-primary font-mono text-[10px] md:text-xs uppercase tracking-wider">
             TECNOLOGIA • INOVAÇÃO • TRANSFORMAÇÃO DIGITAL
@@ -103,7 +103,7 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; desc: string
 
 const Highlights: React.FC = () => {
   return (
-    <section className="py-24 bg-nxr-dark relative">
+    <section className="py-16 md:py-24 bg-nxr-dark relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader title="Pilares da Marca" subtitle="O Que Nos Move" />
 
@@ -137,7 +137,7 @@ const Highlights: React.FC = () => {
 
 const TrustSection: React.FC = () => {
   return (
-    <section className="py-24 border-y border-nxr-border bg-nxr-panel/30">
+    <section className="py-16 md:py-24 border-y border-nxr-border bg-nxr-panel/30">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <SectionHeader
           title="Parceiros e Colaborações"
@@ -149,6 +149,7 @@ const TrustSection: React.FC = () => {
               <img
                 src="/partners/vectron-logo.png"
                 alt="Vectron"
+                loading="lazy"
                 className="h-20 object-contain mx-auto mb-6"
               />
               <h4 className="text-xl font-bold text-white mb-2">VECTRON ENGENHARIA INTEGRADA</h4>
@@ -166,6 +167,7 @@ const TrustSection: React.FC = () => {
               <img
                 src="/partners/arnezes-logo.png"
                 alt="Arnezes"
+                loading="lazy"
                 className="h-16 object-contain mx-auto mb-6"
               />
               <h4 className="text-xl font-bold text-white mb-2">ARNEZES, LDA</h4>
@@ -183,6 +185,7 @@ const TrustSection: React.FC = () => {
               <img
                 src="/partners/fa-energy-logo.png"
                 alt="FA Energy"
+                loading="lazy"
                 className="h-16 object-contain mx-auto mb-6"
               />
               <h4 className="text-xl font-bold text-white mb-2">FA ENERGY & AUTOMATION</h4>
@@ -233,7 +236,7 @@ const ExpansionSection: React.FC = () => {
             </div>
           </div>
           <div className="md:w-1/2 text-center md:text-left">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Onde Estamos</h3>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Onde Estamos</h2>
             <p className="text-slate-400 mb-6 leading-relaxed">
               Baseados em Luanda · Servindo Angola · Expandindo para a região da SADC. A nossa
               infraestrutura cresce para garantir suporte de proximidade.
@@ -286,7 +289,7 @@ const CaseStudyCard: React.FC<{
 
 const CaseStudies: React.FC = () => {
   return (
-    <section className="py-24 bg-nxr-dark relative border-t border-nxr-border">
+    <section className="py-16 md:py-24 bg-nxr-dark relative border-t border-nxr-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           title="Projectos Desenvolvidos e em Andamento"
@@ -378,7 +381,7 @@ const TestimonialCard: React.FC<{
 
 const Testimonials: React.FC = () => {
   return (
-    <section className="py-24 bg-nxr-dark border-t border-nxr-border relative">
+    <section className="py-16 md:py-24 bg-nxr-dark border-t border-nxr-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           title="O Que Dizem Sobre Nós"
@@ -421,7 +424,7 @@ const Testimonials: React.FC = () => {
 
 const FinalCTA: React.FC = () => {
   return (
-    <section className="py-20 bg-nxr-panel border-t border-nxr-border relative">
+    <section className="py-16 md:py-20 bg-nxr-panel border-t border-nxr-border relative">
       <div className="max-w-4xl mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
           Prontos para apoiar a sua organização

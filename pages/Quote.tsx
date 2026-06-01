@@ -309,68 +309,88 @@ const Quote: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-2 uppercase">
+                    <label
+                      htmlFor="quote-name"
+                      className="block text-xs font-mono text-slate-400 mb-2 uppercase"
+                    >
                       Nome Completo *
                     </label>
                     <input
+                      id="quote-name"
                       required
                       type="text"
                       value={state.name}
                       onChange={e => setState({ ...state, name: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
+                      className="w-full bg-slate-950 border border-slate-800 text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-2 uppercase">
+                    <label
+                      htmlFor="quote-company"
+                      className="block text-xs font-mono text-slate-400 mb-2 uppercase"
+                    >
                       Empresa *
                     </label>
                     <input
+                      id="quote-company"
                       required
                       type="text"
                       value={state.company}
                       onChange={e => setState({ ...state, company: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
+                      className="w-full bg-slate-950 border border-slate-800 text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-2 uppercase">
+                    <label
+                      htmlFor="quote-email"
+                      className="block text-xs font-mono text-slate-400 mb-2 uppercase"
+                    >
                       Email Profissional *
                     </label>
                     <input
+                      id="quote-email"
                       required
                       type="email"
                       value={state.email}
                       onChange={e => setState({ ...state, email: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
+                      className="w-full bg-slate-950 border border-slate-800 text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-2 uppercase">
+                    <label
+                      htmlFor="quote-phone"
+                      className="block text-xs font-mono text-slate-400 mb-2 uppercase"
+                    >
                       Telefone (Opcional)
                     </label>
                     <input
+                      id="quote-phone"
                       type="tel"
                       value={state.phone}
                       onChange={e => setState({ ...state, phone: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-800 text-white px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
+                      className="w-full bg-slate-950 border border-slate-800 text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-2 uppercase">
+                  <label
+                    htmlFor="quote-description"
+                    className="block text-xs font-mono text-slate-400 mb-2 uppercase"
+                  >
                     Descrição do Projeto *
                   </label>
                   <textarea
+                    id="quote-description"
                     required
                     rows={4}
                     value={state.description}
                     onChange={e => setState({ ...state, description: e.target.value })}
                     placeholder="Conte-nos sobre os seus objetivos e desafios principais..."
-                    className="w-full bg-slate-950 border border-slate-800 text-white px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors resize-y"
+                    className="w-full bg-slate-950 border border-slate-800 text-white text-base sm:text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors resize-y"
                   />
                 </div>
               </div>

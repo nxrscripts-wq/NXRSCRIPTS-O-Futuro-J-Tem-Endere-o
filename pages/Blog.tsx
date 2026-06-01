@@ -20,7 +20,12 @@ const CATEGORIES: ('Todos' | BlogCategory)[] = [
 const Blog: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('Todos');
 
-  const { data: posts = [], isLoading } = useQuery({
+  const {
+    data: posts = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['blog', activeCategory],
     queryFn: () => fetchPublishedPosts(activeCategory),
   });
@@ -71,6 +76,22 @@ const Blog: React.FC = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : isError ? (
+            <div className="text-center py-20 bg-nxr-panel border border-nxr-border rounded-lg max-w-2xl mx-auto">
+              <div className="w-16 h-16 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Clock className="w-8 h-8 text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Erro de Comunicação</h3>
+              <p className="text-slate-400 mb-6">
+                Não foi possível carregar os artigos. Verifique a sua ligação à internet.
+              </p>
+              <button
+                onClick={() => refetch()}
+                className="px-6 py-2 bg-nxr-dark text-white text-sm font-medium rounded hover:bg-slate-800 transition-colors border border-nxr-border"
+              >
+                Tentar Novamente
+              </button>
             </div>
           ) : posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

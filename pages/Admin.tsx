@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { getLeads, updateLeadStatus, deleteLead, updateLeadNotes } from '../services/leadService';
 import { fetchAllOrdersAdmin } from '../services/storeService';
 import { Lead, LeadStatus } from '../types';
@@ -36,6 +37,7 @@ const Admin: React.FC = () => {
   const {
     data: leads = [],
     isLoading,
+    isError,
     refetch,
   } = useQuery({
     queryKey: ['leads'],
@@ -176,6 +178,10 @@ const Admin: React.FC = () => {
 
   return (
     <div className="pt-24 pb-24 min-h-screen">
+      <Helmet>
+        <title>Painel de Administração | NXRSCRIPTS</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* HEADER GERAL */}
         <div className="flex justify-between items-center mb-6">
@@ -368,6 +374,20 @@ const Admin: React.FC = () => {
                           <tr>
                             <td colSpan={6} className="px-6 py-12 text-center">
                               A carregar leads...
+                            </td>
+                          </tr>
+                        ) : isError ? (
+                          <tr>
+                            <td colSpan={6} className="px-6 py-12 text-center text-red-400">
+                              <p className="mb-3">
+                                Ocorreu um erro de comunicação com os servidores.
+                              </p>
+                              <button
+                                onClick={() => refetch()}
+                                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded border border-slate-700 transition-colors"
+                              >
+                                Tentar Novamente
+                              </button>
                             </td>
                           </tr>
                         ) : filteredLeads.length === 0 ? (

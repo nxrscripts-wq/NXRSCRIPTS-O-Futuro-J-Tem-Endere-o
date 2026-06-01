@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { MessageSquare, X, Send } from 'lucide-react';
 import { sendChatMessage } from '../services/geminiService';
+import { COMPANY_INFO } from '../constants';
 
 interface Message {
   id: string;
@@ -127,7 +128,7 @@ const Chatbot: React.FC = () => {
       addAssistantMessage(reply);
     } catch {
       addAssistantMessage(
-        'Desculpa não estamos disponiveis. Podes contactar-nos directamente:\n📧 nxrscripts@gmail.com\n📱 +244 923 479 049'
+        `Desculpa não estamos disponiveis. Podes contactar-nos directamente:\n📧 ${COMPANY_INFO.contact.email}\n📱 ${COMPANY_INFO.contact.whatsapp}`
       );
     } finally {
       setIsTyping(false);

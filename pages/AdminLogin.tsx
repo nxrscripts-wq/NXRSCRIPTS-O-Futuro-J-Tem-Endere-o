@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { validateRedirect } from '../lib/security';
@@ -56,6 +57,10 @@ const AdminLogin: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-nxr-dark px-4 relative overflow-hidden">
+      <Helmet>
+        <title>Login Administrativo | NXRSCRIPTS</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-nxr-primary rounded-full blur-[120px]" />

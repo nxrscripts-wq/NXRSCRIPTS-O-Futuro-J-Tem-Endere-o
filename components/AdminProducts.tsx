@@ -42,7 +42,12 @@ export const AdminProducts: React.FC = () => {
 
   const categories = getCategoryList().filter(c => c !== 'Todos');
 
-  const { data: products = [], isLoading } = useQuery({
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['admin-products'],
     queryFn: fetchAllProductsAdmin,
   });
@@ -220,7 +225,10 @@ export const AdminProducts: React.FC = () => {
       ...formData,
       tags,
       specs,
-      price: formData.price === '' ? null : Number(formData.price) || null,
+      price:
+        formData.price === undefined || formData.price === null || String(formData.price) === ''
+          ? null
+          : Number(formData.price),
       sort_order: Number(formData.sort_order) || 0,
     };
 
@@ -305,7 +313,12 @@ export const AdminProducts: React.FC = () => {
                   <label className="block text-xs font-medium text-slate-400 mb-1">Status</label>
                   <select
                     value={formData.stock_status || 'available'}
-                    onChange={e => setFormData({ ...formData, stock_status: e.target.value })}
+                    onChange={e =>
+                      setFormData({
+                        ...formData,
+                        stock_status: e.target.value as Product['stock_status'],
+                      })
+                    }
                     className="w-full bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500"
                   >
                     <option value="available">Disponível</option>
@@ -321,8 +334,13 @@ export const AdminProducts: React.FC = () => {
                     type="number"
                     step="0.01"
                     placeholder="Vazio = Consulte-nos"
-                    value={formData.price || ''}
-                    onChange={e => setFormData({ ...formData, price: e.target.value })}
+                    value={formData.price ?? ''}
+                    onChange={e =>
+                      setFormData({
+                        ...formData,
+                        price: e.target.value ? Number(e.target.value) : null,
+                      })
+                    }
                     className="w-full bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500"
                   />
                 </div>
@@ -330,7 +348,9 @@ export const AdminProducts: React.FC = () => {
                   <label className="block text-xs font-medium text-slate-400 mb-1">Moeda</label>
                   <select
                     value={formData.currency || 'AOA'}
-                    onChange={e => setFormData({ ...formData, currency: e.target.value })}
+                    onChange={e =>
+                      setFormData({ ...formData, currency: e.target.value as Product['currency'] })
+                    }
                     className="w-full bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500"
                   >
                     <option value="AOA">AOA (Kwanza)</option>
@@ -344,8 +364,8 @@ export const AdminProducts: React.FC = () => {
                 </label>
                 <input
                   type="number"
-                  value={formData.sort_order || 0}
-                  onChange={e => setFormData({ ...formData, sort_order: e.target.value })}
+                  value={formData.sort_order ?? 0}
+                  onChange={e => setFormData({ ...formData, sort_order: Number(e.target.value) })}
                   className="w-full bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500"
                 />
               </div>
@@ -534,6 +554,18 @@ export const AdminProducts: React.FC = () => {
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />A carregar produtos...
+                  </td>
+                </tr>
+              ) : isError ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-red-400">
+                    <p className="mb-3">Ocorreu um erro de comunicação ao carregar os produtos.</p>
+                    <button
+                      onClick={() => refetch()}
+                      className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded border border-slate-700 transition-colors"
+                    >
+                      Tentar Novamente
+                    </button>
                   </td>
                 </tr>
               ) : products.length === 0 ? (

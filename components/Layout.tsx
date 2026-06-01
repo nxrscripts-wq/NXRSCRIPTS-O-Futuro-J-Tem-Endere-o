@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Linkedin, Twitter, Facebook, MessageCircle, Instagram } from 'lucide-react';
 import { NAV_ITEMS, COMPANY_INFO } from '../constants';
-import Chatbot from './Chatbot';
+
+const Chatbot = React.lazy(() => import('./Chatbot'));
 
 const prefetchRoute = (path: string) => {
   switch (path) {
@@ -120,6 +121,7 @@ const Navbar: React.FC = () => {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsOpen(false)}
                 onMouseEnter={() => prefetchRoute(item.path)}
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   location.pathname === item.path
@@ -281,10 +283,10 @@ const Footer: React.FC = () => {
             <Link to="/privacy" className="hover:text-slate-400 transition-colors">
               Política de Privacidade
             </Link>
-            <Link to="/contact" className="hover:text-slate-400 transition-colors">
+            <Link to="/privacy" className="hover:text-slate-400 transition-colors">
               Termos de Serviço
             </Link>
-            <Link to="/contact" className="hover:text-slate-400 transition-colors">
+            <Link to="/privacy" className="hover:text-slate-400 transition-colors">
               Cookies
             </Link>
           </div>
@@ -311,7 +313,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />
-      {!location.pathname.startsWith('/admin') && <Chatbot />}
+      {!location.pathname.startsWith('/admin') && (
+        <Suspense fallback={null}>
+          <Chatbot />
+        </Suspense>
+      )}
     </div>
   );
 };

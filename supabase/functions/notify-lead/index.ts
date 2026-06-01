@@ -33,7 +33,7 @@ serve(async (req) => {
         </div>
         
         <div style="margin-top: 30px; text-align: center;">
-          <a href="https://nxrscripts.ao/admin" style="display: inline-block; background-color: #0f172a; color: #00E5FF; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; border: 1px solid #1e293b;">
+          <a href="https://www.nxrscripts.com/admin" style="display: inline-block; background-color: #0f172a; color: #00E5FF; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; border: 1px solid #1e293b;">
             Ver no Admin Panel
           </a>
         </div>

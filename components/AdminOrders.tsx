@@ -12,7 +12,12 @@ export const AdminOrders: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<Order['status'] | 'all'>('all');
   const [internalNotes, setInternalNotes] = useState('');
 
-  const { data: orders = [], isLoading } = useQuery({
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['admin-orders'],
     queryFn: fetchAllOrdersAdmin,
   });
@@ -163,6 +168,20 @@ export const AdminOrders: React.FC = () => {
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     A carregar requisições...
+                  </td>
+                </tr>
+              ) : isError ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-12 text-center text-red-400">
+                    <p className="mb-3">
+                      Ocorreu um erro de comunicação ao carregar as requisições.
+                    </p>
+                    <button
+                      onClick={() => refetch()}
+                      className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded border border-slate-700 transition-colors"
+                    >
+                      Tentar Novamente
+                    </button>
                   </td>
                 </tr>
               ) : filteredOrders.length === 0 ? (

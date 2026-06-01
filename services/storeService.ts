@@ -1,7 +1,10 @@
 import { supabase } from '../lib/supabase';
+import { isValidUUID } from '../lib/security';
 import type { Product, NewProduct, Order, NewOrder } from '../types';
 
-const WHATSAPP_NUMBER = '244923479049'; // número real NXRSCRIPTS sem + nem espaços
+import { COMPANY_INFO } from '../constants';
+
+const WHATSAPP_NUMBER = COMPANY_INFO.contact.whatsapp.replace(/[^0-9]/g, ''); // Extract only numbers
 
 // ================================================================
 // PRODUTOS — PÚBLICO
@@ -56,7 +59,7 @@ export function buildWhatsAppLink(product: Product, quantity = 1): string {
     : `*${product.name}* — Consultar preço`;
 
   const message = encodeURIComponent(
-    `Olá NXRSCRIPTS! 👋\n\nTenho interesse no seguinte produto:\n\n${productInfo}\nQuantidade: ${quantity}\n\nPoderia dar-me mais informações sobre disponibilidade e condições de compra?\n\nObrigado!`,
+    `Olá NXRSCRIPTS! 👋\n\nTenho interesse no seguinte produto:\n\n${productInfo}\nQuantidade: ${quantity}\n\nPoderia dar-me mais informações sobre disponibilidade e condições de compra?\n\nObrigado!`
   );
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
@@ -92,11 +95,13 @@ export async function createProduct(product: NewProduct): Promise<Product> {
 }
 
 export async function updateProduct(id: string, updates: Partial<Product>): Promise<void> {
+  if (!isValidUUID(id)) throw new Error('[Security] Invalid product UUID');
   const { error } = await supabase.from('products').update(updates).eq('id', id);
   if (error) throw new Error(error.message);
 }
 
 export async function deleteProduct(id: string): Promise<void> {
+  if (!isValidUUID(id)) throw new Error('[Security] Invalid product UUID');
   // Primeiro buscar imagens para apagar do storage
   const { data: product } = await supabase
     .from('products')
@@ -118,6 +123,7 @@ export async function deleteProduct(id: string): Promise<void> {
 }
 
 export async function toggleProductActive(id: string, active: boolean): Promise<void> {
+  if (!isValidUUID(id)) throw new Error('[Security] Invalid product UUID');
   const { error } = await supabase.from('products').update({ active }).eq('id', id);
   if (error) throw new Error(error.message);
 }
@@ -126,7 +132,24 @@ export async function toggleProductActive(id: string, active: boolean): Promise<
 // STORAGE — Upload & Delete de Imagens
 // ================================================================
 
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 export async function uploadProductImage(file: File, productId: string): Promise<string> {
+  if (!isValidUUID(productId)) throw new Error('[Security] Invalid product UUID');
+
+  // Server-side validation (redundant with bucket constraints, but defence-in-depth)
+  if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+    throw new Error(
+      `[Security] Invalid file type: ${file.type}. Allowed: ${ALLOWED_MIME_TYPES.join(', ')}`
+    );
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error(
+      `[Security] File too large: ${(file.size / 1024 / 1024).toFixed(1)}MB. Max: 5MB`
+    );
+  }
+
   const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
   const path = `${productId}/${Date.now()}.${ext}`;
 
@@ -154,7 +177,7 @@ export async function deleteProductImage(url: string): Promise<void> {
 export async function fetchAllOrdersAdmin(): Promise<Order[]> {
   const { data, error } = await supabase
     .from('orders')
-    .select('*, products(name, cover_image)')
+    .select('*')
     .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
@@ -162,11 +185,13 @@ export async function fetchAllOrdersAdmin(): Promise<Order[]> {
 }
 
 export async function updateOrderStatus(id: string, status: Order['status']): Promise<void> {
+  if (!isValidUUID(id)) throw new Error('[Security] Invalid order UUID');
   const { error } = await supabase.from('orders').update({ status }).eq('id', id);
   if (error) throw new Error(error.message);
 }
 
 export async function updateOrderNotes(id: string, notes: string): Promise<void> {
+  if (!isValidUUID(id)) throw new Error('[Security] Invalid order UUID');
   const { error } = await supabase.from('orders').update({ notes }).eq('id', id);
   if (error) throw new Error(error.message);
 }

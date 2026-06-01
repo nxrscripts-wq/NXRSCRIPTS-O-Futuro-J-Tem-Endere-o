@@ -47,7 +47,12 @@ export const Store: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { data: products = [], isLoading } = useQuery({
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['products', activeCategory],
     queryFn: () => fetchActiveProducts(activeCategory),
   });
@@ -144,8 +149,28 @@ export const Store: React.FC = () => {
             </div>
           )}
 
+          {/* Error State */}
+          {isError && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-16 h-16 bg-red-900/30 rounded-full flex items-center justify-center mb-6">
+                <ShieldCheck className="w-8 h-8 text-red-500" />
+              </div>
+              <h3 className="text-xl font-medium text-slate-300 mb-2">Erro ao carregar catálogo</h3>
+              <p className="text-slate-500 text-sm mb-8 max-w-md">
+                Ocorreu uma falha na comunicação com os nossos servidores. Por favor, verifique a
+                sua ligação ou tente novamente.
+              </p>
+              <button
+                onClick={() => refetch()}
+                className="px-6 py-2 bg-slate-800 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors border border-slate-700"
+              >
+                Tentar Novamente
+              </button>
+            </div>
+          )}
+
           {/* Empty State */}
-          {!isLoading && filteredProducts.length === 0 && (
+          {!isLoading && !isError && filteredProducts.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <Box className="w-20 h-20 text-slate-600 mb-6" />
               <h3 className="text-xl font-medium text-slate-300 mb-2">Sem produtos disponíveis</h3>
@@ -169,7 +194,7 @@ export const Store: React.FC = () => {
           )}
 
           {/* Product Grid */}
-          {!isLoading && filteredProducts.length > 0 && (
+          {!isLoading && !isError && filteredProducts.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProducts.map((product, index) => (
                 <AnimateIn key={product.id} delay={Math.min(index * 50, 300)}>
@@ -188,6 +213,7 @@ export const Store: React.FC = () => {
                         <img
                           src={product.cover_image}
                           alt={product.name}
+                          loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (

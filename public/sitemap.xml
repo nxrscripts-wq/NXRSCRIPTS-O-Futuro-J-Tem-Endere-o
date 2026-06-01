@@ -1,34 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nxrscripts.co.ao/</loc>
+    <loc>https://www.nxrscripts.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-05-28</lastmod>
   </url>
   <url>
-    <loc>https://nxrscripts.co.ao/about</loc>
+    <loc>https://www.nxrscripts.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nxrscripts.co.ao/services</loc>
+    <loc>https://www.nxrscripts.com/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://nxrscripts.co.ao/technologies</loc>
+    <loc>https://www.nxrscripts.com/technologies</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://nxrscripts.co.ao/store</loc>
+    <loc>https://www.nxrscripts.com/store</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nxrscripts.co.ao/contact</loc>
+    <loc>https://www.nxrscripts.com/contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nxrscripts.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nxrscripts.com/quote</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nxrscripts.com/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.nxrscripts.com/coverage</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

@@ -99,7 +99,7 @@ const Services: React.FC = () => {
           ...SERVICES.map(s => serviceSchema(s.title, s.description, s.title)),
         ]}
       />
-      <div className="pt-20 sm:pt-28 pb-0 min-h-screen">
+      <div className="pt-16 md:pt-28 pb-0 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
           <SectionHeader
             title="Serviços Prestados"
@@ -184,7 +184,7 @@ const Services: React.FC = () => {
         </div>
 
         {/* Process Section */}
-        <section className="bg-nxr-dark border-t border-nxr-border py-20">
+        <section className="bg-nxr-dark border-t border-nxr-border py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
@@ -242,7 +242,7 @@ const Services: React.FC = () => {
         </section>
 
         {/* Store Section */}
-        <section className="bg-nxr-panel border-t border-nxr-border py-16">
+        <section className="bg-nxr-panel border-t border-nxr-border py-12 md:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h3 className="text-2xl font-bold text-white mb-4">
               Também Comercializamos Material Tecnológico
@@ -305,7 +305,7 @@ const Services: React.FC = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="bg-nxr-primary/5 py-24 border-t border-nxr-border text-center">
+        <section className="bg-nxr-primary/5 py-16 md:py-24 border-t border-nxr-border text-center">
           <div className="max-w-3xl mx-auto px-4">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
               Precisa de uma solução específica?

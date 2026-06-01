@@ -5,7 +5,7 @@ import { isValidUUID } from '../lib/security';
 export const getLeads = async (): Promise<Lead[]> => {
   const { data, error } = await supabase
     .from('leads')
-    .select('*')
+    .select('id, name, email, company, message, category, status, notes, created_at')
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -26,17 +26,21 @@ export const getLeads = async (): Promise<Lead[]> => {
   }));
 };
 
-export const createLead = async (leadData: Omit<Lead, 'id' | 'createdAt' | 'status'>): Promise<Lead | null> => {
+export const createLead = async (
+  leadData: Omit<Lead, 'id' | 'createdAt' | 'status'>
+): Promise<Lead | null> => {
   const { data, error } = await supabase
     .from('leads')
-    .insert([{
-      name: leadData.name,
-      email: leadData.email,
-      company: leadData.company,
-      message: leadData.message,
-      category: leadData.category,
-      status: 'NEW'
-    }])
+    .insert([
+      {
+        name: leadData.name,
+        email: leadData.email,
+        company: leadData.company,
+        message: leadData.message,
+        category: leadData.category,
+        status: 'NEW',
+      },
+    ])
     .select()
     .single();
 
@@ -64,10 +68,7 @@ export const updateLeadStatus = async (id: string, status: LeadStatus): Promise<
     return false;
   }
 
-  const { error } = await supabase
-    .from('leads')
-    .update({ status })
-    .eq('id', id);
+  const { error } = await supabase.from('leads').update({ status }).eq('id', id);
 
   if (error) {
     console.error('Error updating lead status:', error);
@@ -82,10 +83,7 @@ export const updateLeadNotes = async (id: string, notes: string): Promise<boolea
     return false;
   }
 
-  const { error } = await supabase
-    .from('leads')
-    .update({ notes })
-    .eq('id', id);
+  const { error } = await supabase.from('leads').update({ notes }).eq('id', id);
 
   if (error) {
     console.error('Error updating lead notes:', error);
@@ -100,10 +98,7 @@ export const deleteLead = async (id: string): Promise<boolean> => {
     return false;
   }
 
-  const { error } = await supabase
-    .from('leads')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('leads').delete().eq('id', id);
 
   if (error) {
     console.error('Error deleting lead:', error);

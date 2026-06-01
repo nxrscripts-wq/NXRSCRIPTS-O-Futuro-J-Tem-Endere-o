@@ -1,25 +1,118 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Content-Type': 'application/json',
-};
+// ============================================================
+// CORS — Restricted to NXRSCRIPTS domains
+// ============================================================
+const ALLOWED_ORIGINS = [
+  'https://nxrscripts.co.ao',
+  'https://www.nxrscripts.co.ao',
+  'https://www.nxrscripts.com',
+  'https://nxrscripts.com',
+];
 
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get('origin') || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Content-Type': 'application/json',
+  };
+}
+
+// ============================================================
+// Rate Limiting — In-memory per IP (10 req/min)
+// ============================================================
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX = 10;
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count++;
+  if (entry.count > RATE_LIMIT_MAX) {
+    return true;
+  }
+
+  return false;
+}
+
+// Cleanup stale entries every 5 minutes to prevent memory leak
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitMap) {
+    if (now > entry.resetAt) rateLimitMap.delete(ip);
+  }
+}, 5 * 60_000);
+
+// ============================================================
+// Input Validation
+// ============================================================
+const VALID_TYPES = ['insight', 'categorize', 'chat'] as const;
+const MAX_PAYLOAD_LENGTH = 2000;
+
+// ============================================================
+// Main Handler
+// ============================================================
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: CORS_HEADERS });
+    return new Response('ok', { headers: corsHeaders });
+  }
+
+  // Rate limit check
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || req.headers.get('cf-connecting-ip')
+    || 'unknown';
+
+  if (isRateLimited(clientIp)) {
+    return new Response(
+      JSON.stringify({ error: 'Rate limit exceeded. Try again in 1 minute.' }),
+      { status: 429, headers: { ...corsHeaders, 'Retry-After': '60' } }
+    );
   }
 
   try {
-    const { type, payload } = await req.json();
+    const body = await req.json();
+    const { type, payload } = body;
+
+    // Validate type
+    if (!type || !VALID_TYPES.includes(type)) {
+      return new Response(
+        JSON.stringify({ error: `Invalid type. Must be one of: ${VALID_TYPES.join(', ')}` }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    // Validate payload
+    if (!payload || typeof payload !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Payload is required and must be a string' }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    if (payload.length > MAX_PAYLOAD_LENGTH) {
+      return new Response(
+        JSON.stringify({ error: `Payload too large. Max ${MAX_PAYLOAD_LENGTH} characters.` }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
 
     const apiKey = Deno.env.get('GEMINI_API_KEY');
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: 'GEMINI_API_KEY not configured' }),
-        { status: 500, headers: CORS_HEADERS }
+        { status: 500, headers: corsHeaders }
       );
     }
 
@@ -55,7 +148,7 @@ NXR Assistant:`;
     if (!prompt) {
       return new Response(
         JSON.stringify({ error: 'Invalid type. Use: insight, categorize, or chat' }),
-        { status: 400, headers: CORS_HEADERS }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -87,14 +180,14 @@ NXR Assistant:`;
 
     return new Response(
       JSON.stringify({ result }),
-      { status: 200, headers: CORS_HEADERS }
+      { status: 200, headers: corsHeaders }
     );
 
   } catch (err) {
     console.error('[ai-analyze]', err);
     return new Response(
       JSON.stringify({ result: null, error: String(err) }),
-      { status: 200, headers: CORS_HEADERS }
+      { status: 200, headers: corsHeaders }
     );
   }
 });

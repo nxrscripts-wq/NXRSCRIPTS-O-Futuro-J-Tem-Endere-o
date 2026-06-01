@@ -36,7 +36,7 @@ serve(async (req) => {
           ${order.message ? `<div style="background: #0f172a; padding: 15px; border-left: 4px solid #06b6d4; border-radius: 4px; margin-bottom: 20px;"><strong style="color: #94a3b8; font-size: 12px; display: block; margin-bottom: 5px;">MENSAGEM DO CLIENTE</strong>${order.message}</div>` : ''}
           
           <div style="text-align: center; margin-top: 30px;">
-            <a href="https://nxrscripts.com/admin" style="background: #06b6d4; color: #020617; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ver no Admin Panel</a>
+            <a href="https://www.nxrscripts.com/admin" style="background: #06b6d4; color: #020617; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ver no Admin Panel</a>
           </div>
         </div>
         <div style="text-align: center; padding: 15px; font-size: 12px; color: #64748b; border-top: 1px solid #1e293b;">
