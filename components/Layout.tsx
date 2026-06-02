@@ -73,7 +73,11 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <Link to="/" className="flex items-center group">
+          <Link
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center group"
+          >
             <img
               src="/nxrscripts-logo.png"
               alt="NXRSCRIPTS"
@@ -147,7 +151,11 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="inline-block mb-4 group">
+            <Link
+              to="/"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-block mb-4 group"
+            >
               <img
                 src="/nxrscripts-logo.png"
                 alt="NXRSCRIPTS"
